@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     PredictionMarket: {
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
       abi: [
         {
           inputs: [
@@ -706,6 +706,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "s_isReported",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "s_lpTradingRevenue",
           outputs: [
             {
@@ -725,6 +738,19 @@ const deployedContracts = {
               internalType: "string",
               name: "",
               type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "s_winningToken",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
             },
           ],
           stateMutability: "view",
@@ -769,7 +795,7 @@ const deployedContracts = {
       },
     },
     PredictionMarketTokenNo: {
-      address: "0xb0279Db6a2F1E01fbC8483FCCef0Be2bC6299cC3",
+      address: "0x23dB4a08f2272df049a4932a4Cc3A6Dc1002B33E",
       abi: [
         {
           inputs: [
@@ -1186,7 +1212,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     PredictionMarketTokenYes: {
-      address: "0x856e4424f806D16E8CBC702B3c0F2ede5468eae5",
+      address: "0x61c36a8d610163660E21a8b7359e1Cac0C9133e1",
       abi: [
         {
           inputs: [

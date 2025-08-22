@@ -154,7 +154,7 @@ contract PredictionMarket is Ownable {
      * @dev Only the owner can remove liquidity and only if the prediction is not reported
      * @param _ethToWithdraw Amount of ETH to withdraw from liquidity pool
      */
-    function removeLiquidity(uint256 _ethToWithdraw)  external onlyOwner predictionNotReported {
+    function removeLiquidity(uint256 _ethToWithdraw) external onlyOwner predictionNotReported {
         //// Checkpoint 4 ////
 
         uint256 amountTokenToBurn = (_ethToWithdraw / i_initialTokenValue) * PRECISION;
@@ -185,7 +185,7 @@ contract PredictionMarket is Ownable {
      * @dev Only the oracle can report the winning outcome and only if the prediction is not reported
      * @param _winningOutcome The winning outcome (YES or NO)
      */
-    function report(Outcome _winningOutcome) external predictionNotReported() {
+    function report(Outcome _winningOutcome) external predictionNotReported {
         //// Checkpoint 5 ////
         if (msg.sender != i_oracle) {
             revert PredictionMarket__OnlyOracleCanReport();
@@ -202,6 +202,27 @@ contract PredictionMarket is Ownable {
      */
     function resolveMarketAndWithdraw() external onlyOwner returns (uint256 ethRedeemed) {
         /// Checkpoint 6 ////
+        if (!s_isReported) {
+            revert PredictionMarket__PredictionNotReported();
+        }
+        uint256 contractWinningTokens = PredictionMarketToken(s_winningToken).balanceOf(address(this));
+        if (contractWinningTokens > 0) {
+            ethRedeemed = (contractWinningTokens * i_initialTokenValue) / PRECISION;
+            if (ethRedeemed > s_ethCollateral) {
+                ethRedeemed = s_ethCollateral;
+            }
+            s_ethCollateral -= ethRedeemed;
+        }
+        uint256 totalEthToSend = ethRedeemed + s_lpTradingRevenue;
+        PredictionMarketToken(s_winningToken).burn(address(this), contractWinningTokens);
+        s_lpTradingRevenue = 0;
+        (bool success, ) = msg.sender.call{ value: totalEthToSend }("");
+        if (!success) {
+            revert PredictionMarket__ETHTransferFailed();
+        }
+        emit MarketResolved(msg.sender, totalEthToSend);
+
+        return ethRedeemed;
     }
 
     /**
