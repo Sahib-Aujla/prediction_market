@@ -72,7 +72,8 @@ contract PredictionMarket is Ownable {
     uint256 public immutable i_initialTokenValue;
     uint256 public immutable i_percentageLocked;
     uint256 public immutable i_initialYesProbability;
-
+    PredictionMarketToken public immutable i_yesToken;
+    PredictionMarketToken public immutable i_noToken;
     string public s_question;
     uint256 public s_ethCollateral;
     uint256 public s_lpTradingRevenue;
@@ -105,6 +106,18 @@ contract PredictionMarket is Ownable {
         i_percentageLocked = _percentageToLock;
 
         s_ethCollateral = msg.value;
+        uint intialVal = (msg.value * PRECISION) / _initialTokenValue;
+        i_yesToken = new PredictionMarketToken("YES", "Y", msg.sender, intialVal);
+        i_noToken = new PredictionMarketToken("No", "N", msg.sender, intialVal);
+
+        uint256 initialYesAmountLocked = (intialVal * _initialYesProbability * _percentageToLock * 2) / 10000;
+        uint256 initialNoAmountLocked = (intialVal * (100 - _initialYesProbability) * _percentageToLock * 2) / 10000;
+
+        bool success1 = i_yesToken.transfer(msg.sender, initialYesAmountLocked);
+        bool success2 = i_noToken.transfer(msg.sender, initialNoAmountLocked);
+        if (!success1 || !success2) {
+            revert PredictionMarket__TokenTransferFailed();
+        }
     }
 
     /////////////////
@@ -260,21 +273,21 @@ contract PredictionMarket is Ownable {
         )
     {
         /// Checkpoint 3 ////
-        // oracle = i_oracle;
-        // initialTokenValue = i_initialTokenValue;
-        // percentageLocked = i_percentageLocked;
-        // initialProbability = i_initialYesProbability;
-        // question = s_question;
-        // ethCollateral = s_ethCollateral;
-        // lpTradingRevenue = s_lpTradingRevenue;
-        // predictionMarketOwner = owner();
-        // yesToken = address(i_yesToken);
-        // noToken = address(i_noToken);
-        // outcome1 = i_yesToken.name();
-        // outcome2 = i_noToken.name();
-        // yesTokenReserve = i_yesToken.balanceOf(address(this));
-        // noTokenReserve = i_noToken.balanceOf(address(this));
-        /// Checkpoint 5 ////
+        oracle = i_oracle;
+        initialTokenValue = i_initialTokenValue;
+        percentageLocked = i_percentageLocked;
+        initialProbability = i_initialYesProbability;
+        question = s_question;
+        ethCollateral = s_ethCollateral;
+        lpTradingRevenue = s_lpTradingRevenue;
+        predictionMarketOwner = owner();
+        yesToken = address(i_yesToken);
+        noToken = address(i_noToken);
+        outcome1 = i_yesToken.name();
+        outcome2 = i_noToken.name();
+        yesTokenReserve = i_yesToken.balanceOf(address(this));
+        noTokenReserve = i_noToken.balanceOf(address(this));
+        // / Checkpoint 5 ////
         // isReported = s_isReported;
         // winningToken = address(s_winningToken);
     }
