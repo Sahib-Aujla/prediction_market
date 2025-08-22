@@ -225,19 +225,31 @@ contract PredictionMarket is Ownable {
         return ethRedeemed;
     }
 
+    modifier notOwner() {
+        if (msg.sender == owner()) {
+            revert PredictionMarket__OwnerCannotCall();
+        }
+        _;
+    }
+
+    modifier amountGreaterThanZero(uint256 _amount) {
+        if (_amount == 0) {
+            revert PredictionMarket__AmountMustBeGreaterThanZero();
+        }
+        _;
+    }
+
     /**
      * @notice Buy prediction outcome tokens with ETH, need to call priceInETH function first to get right amount of tokens to buy
      * @param _outcome The possible outcome (YES or NO) to buy tokens for
      * @param _amountTokenToBuy Amount of tokens to purchase
      */
-    function buyTokensWithETH(Outcome _outcome, uint256 _amountTokenToBuy) external payable predictionNotReported {
+    function buyTokensWithETH(
+        Outcome _outcome,
+        uint256 _amountTokenToBuy
+    ) external payable amountGreaterThanZero(_amountTokenToBuy) notOwner predictionNotReported {
         /// Checkpoint 8 ////
-        if (msg.sender == owner()) {
-            revert PredictionMarket__OwnerCannotCall();
-        }
-        if (_amountTokenToBuy == 0) {
-            revert PredictionMarket__AmountMustBeGreaterThanZero();
-        }
+
         //check token balance
         uint contractTokenBalance = _outcome == Outcome.YES
             ? i_yesToken.balanceOf(address(this))
@@ -250,6 +262,8 @@ contract PredictionMarket is Ownable {
         if (msg.value != priceInEth) {
             revert PredictionMarket__MustSendExactETHAmount();
         }
+
+        s_lpTradingRevenue += msg.value;
         //transfer tokens
         bool success = _outcome == Outcome.YES
             ? i_yesToken.transfer(msg.sender, _amountTokenToBuy)
@@ -265,8 +279,36 @@ contract PredictionMarket is Ownable {
      * @param _outcome The possible outcome (YES or NO) to sell tokens for
      * @param _tradingAmount The amount of tokens to sell
      */
-    function sellTokensForEth(Outcome _outcome, uint256 _tradingAmount) external predictionNotReported {
-        /// Checkpoint 8 ////
+    function sellTokensForEth(
+        Outcome _outcome,
+        uint256 _tradingAmount
+    ) external amountGreaterThanZero(_tradingAmount) notOwner predictionNotReported {
+        PredictionMarketToken optionToken = _outcome == Outcome.YES ? i_yesToken : i_noToken;
+        uint256 userBalance = optionToken.balanceOf(msg.sender);
+        if (userBalance < _tradingAmount) {
+            revert PredictionMarket__InsufficientBalance(_tradingAmount, userBalance);
+        }
+
+        uint256 allowance = optionToken.allowance(msg.sender, address(this));
+        if (allowance < _tradingAmount) {
+            revert PredictionMarket__InsufficientAllowance(_tradingAmount, allowance);
+        }
+
+        uint256 ethToReceive = getSellPriceInEth(_outcome, _tradingAmount);
+
+        s_lpTradingRevenue -= ethToReceive;
+
+        (bool sent, ) = msg.sender.call{ value: ethToReceive }("");
+        if (!sent) {
+            revert PredictionMarket__ETHTransferFailed();
+        }
+
+        bool success = optionToken.transferFrom(msg.sender, address(this), _tradingAmount);
+        if (!success) {
+            revert PredictionMarket__TokenTransferFailed();
+        }
+
+        emit TokensSold(msg.sender, _outcome, _tradingAmount, ethToReceive);
     }
 
     /**
