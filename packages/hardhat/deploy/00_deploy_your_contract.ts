@@ -29,7 +29,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const initialProbability = 50;
   const percentageLocked = 10;
   const liquidityProvider = deployer;
-  const oracle = "0x62b856f0040964a75dcca546ebac8ae239a27182";
+  const oracle = "0x02d69FB4C41E42DBE1357bCd9C876a92d5Afedf6";
 
   await deploy("PredictionMarket", {
     from: deployer,
@@ -68,7 +68,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   } else {
     console.log("No Yes, No token contracts deployed yet");
   }
-  await predictionMarket.transferOwnership("0x62b856f0040964a75dcca546ebac8ae239a27182");
+  await predictionMarket.transferOwnership("0x02d69FB4C41E42DBE1357bCd9C876a92d5Afedf6");
 };
 
 export default deployYourContract;

@@ -1,0 +1,1092 @@
+{
+  "address": "0x0704F860a507d601cD9F5A1B318863aef3F3cebc",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_liquidityProvider",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_oracle",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_question",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_initialTokenValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_initialYesProbability",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_percentageToLock",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__AmountMustBeGreaterThanZero",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__ETHTransferFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tradingAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_allowance",
+          "type": "uint256"
+        }
+      ],
+      "name": "PredictionMarket__InsufficientAllowance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tradingAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_userBalance",
+          "type": "uint256"
+        }
+      ],
+      "name": "PredictionMarket__InsufficientBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__InsufficientLiquidity",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "_outcome",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amountToken",
+          "type": "uint256"
+        }
+      ],
+      "name": "PredictionMarket__InsufficientTokenReserve",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__InsufficientWinningTokens",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__InvalidPercentageToLock",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__InvalidProbability",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__MustProvideETHForInitialLiquidity",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__MustSendExactETHAmount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__OnlyOracleCanReport",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__OwnerCannotCall",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__PredictionAlreadyReported",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__PredictionNotReported",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PredictionMarket__TokenTransferFailed",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "provider",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ethAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "tokensAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LiquidityAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "provider",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ethAmount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "tokensAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LiquidityRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "oracle",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "winningOutcome",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "winningToken",
+          "type": "address"
+        }
+      ],
+      "name": "MarketReported",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "resolver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalEthToSend",
+          "type": "uint256"
+        }
+      ],
+      "name": "MarketResolved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "outcome",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "TokensPurchased",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "seller",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "outcome",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "TokensSold",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "redeemer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "ethAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "WinningTokensRedeemed",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "addLiquidity",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "_outcome",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amountTokenToBuy",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyTokensWithETH",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "_outcome",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tradingAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "getBuyPriceInEth",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getPrediction",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "question",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "outcome1",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "outcome2",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "oracle",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "initialTokenValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "yesTokenReserve",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "noTokenReserve",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isReported",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "yesToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "noToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "winningToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "ethCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lpTradingRevenue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "predictionMarketOwner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "initialProbability",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "percentageLocked",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "_outcome",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tradingAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSellPriceInEth",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "i_initialTokenValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "i_initialYesProbability",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "i_noToken",
+      "outputs": [
+        {
+          "internalType": "contract PredictionMarketToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "i_oracle",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "i_percentageLocked",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "i_yesToken",
+      "outputs": [
+        {
+          "internalType": "contract PredictionMarketToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "redeemWinningTokens",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_ethToWithdraw",
+          "type": "uint256"
+        }
+      ],
+      "name": "removeLiquidity",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "_winningOutcome",
+          "type": "uint8"
+        }
+      ],
+      "name": "report",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "resolveMarketAndWithdraw",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "ethRedeemed",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "s_ethCollateral",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "s_isReported",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "s_lpTradingRevenue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "s_question",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "s_winningToken",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum PredictionMarket.Outcome",
+          "name": "_outcome",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tradingAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "sellTokensForEth",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x6a3d50e83e6ef9f95fe676acf8e7649355f2a272a309aeb0228f7aa21f3060f8",
+  "receipt": {
+    "to": null,
+    "from": "0x06eA6B2cf9DEe45e0c3CC93CA1aba72f1e3ce953",
+    "contractAddress": "0x0704F860a507d601cD9F5A1B318863aef3F3cebc",
+    "transactionIndex": 68,
+    "gasUsed": "3201849",
+    "logsBloom": "0x00000000000000000000200000000000000000000000000000800000000000000000000000000000000000000000000000000000400000000002000000000000000000000000000100000008000000000001000000000000000000000000000000000800020000010000000000000800000001000000000000040010000000400000000000000000000000080000000000000000000000000000000000000000000000004000000000000000000000002000000000000000000000000000000000040002000000000000000000000000000000000000000000020000100020000000000000000000000000000000000000000000000000000000000000000004",
+    "blockHash": "0xcec25731aefff8dbd197c83ba4871caa84956777dab5a47037250bb25578e8ed",
+    "transactionHash": "0x6a3d50e83e6ef9f95fe676acf8e7649355f2a272a309aeb0228f7aa21f3060f8",
+    "logs": [
+      {
+        "transactionIndex": 68,
+        "blockNumber": 9040893,
+        "transactionHash": "0x6a3d50e83e6ef9f95fe676acf8e7649355f2a272a309aeb0228f7aa21f3060f8",
+        "address": "0x0704F860a507d601cD9F5A1B318863aef3F3cebc",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x00000000000000000000000006ea6b2cf9dee45e0c3cc93ca1aba72f1e3ce953"
+        ],
+        "data": "0x",
+        "logIndex": 114,
+        "blockHash": "0xcec25731aefff8dbd197c83ba4871caa84956777dab5a47037250bb25578e8ed"
+      },
+      {
+        "transactionIndex": 68,
+        "blockNumber": 9040893,
+        "transactionHash": "0x6a3d50e83e6ef9f95fe676acf8e7649355f2a272a309aeb0228f7aa21f3060f8",
+        "address": "0xD692798C6AC7D3cf27E379FF1Dbd728e45FE4a93",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000704f860a507d601cd9f5a1b318863aef3f3cebc"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000056bc75e2d63100000",
+        "logIndex": 115,
+        "blockHash": "0xcec25731aefff8dbd197c83ba4871caa84956777dab5a47037250bb25578e8ed"
+      },
+      {
+        "transactionIndex": 68,
+        "blockNumber": 9040893,
+        "transactionHash": "0x6a3d50e83e6ef9f95fe676acf8e7649355f2a272a309aeb0228f7aa21f3060f8",
+        "address": "0xD7Fd3Da9F2d4a75b5F3D6654f3518a194D42d520",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000000704f860a507d601cd9f5a1b318863aef3f3cebc"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000056bc75e2d63100000",
+        "logIndex": 116,
+        "blockHash": "0xcec25731aefff8dbd197c83ba4871caa84956777dab5a47037250bb25578e8ed"
+      },
+      {
+        "transactionIndex": 68,
+        "blockNumber": 9040893,
+        "transactionHash": "0x6a3d50e83e6ef9f95fe676acf8e7649355f2a272a309aeb0228f7aa21f3060f8",
+        "address": "0xD692798C6AC7D3cf27E379FF1Dbd728e45FE4a93",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x0000000000000000000000000704f860a507d601cd9f5a1b318863aef3f3cebc",
+          "0x00000000000000000000000006ea6b2cf9dee45e0c3cc93ca1aba72f1e3ce953"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000008ac7230489e80000",
+        "logIndex": 117,
+        "blockHash": "0xcec25731aefff8dbd197c83ba4871caa84956777dab5a47037250bb25578e8ed"
+      },
+      {
+        "transactionIndex": 68,
+        "blockNumber": 9040893,
+        "transactionHash": "0x6a3d50e83e6ef9f95fe676acf8e7649355f2a272a309aeb0228f7aa21f3060f8",
+        "address": "0xD7Fd3Da9F2d4a75b5F3D6654f3518a194D42d520",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x0000000000000000000000000704f860a507d601cd9f5a1b318863aef3f3cebc",
+          "0x00000000000000000000000006ea6b2cf9dee45e0c3cc93ca1aba72f1e3ce953"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000008ac7230489e80000",
+        "logIndex": 118,
+        "blockHash": "0xcec25731aefff8dbd197c83ba4871caa84956777dab5a47037250bb25578e8ed"
+      }
+    ],
+    "blockNumber": 9040893,
+    "cumulativeGasUsed": "9044699",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x06eA6B2cf9DEe45e0c3CC93CA1aba72f1e3ce953",
+    "0x02d69FB4C41E42DBE1357bCd9C876a92d5Afedf6",
+    "Will the green car win the race?",
+    "10000000000000000",
+    50,
+    10
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "69bb624081b3691465b04eaf4c3bf86e",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_liquidityProvider\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_oracle\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_question\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_initialTokenValue\",\"type\":\"uint256\"},{\"internalType\":\"uint8\",\"name\":\"_initialYesProbability\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"_percentageToLock\",\"type\":\"uint8\"}],\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__AmountMustBeGreaterThanZero\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__ETHTransferFailed\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tradingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_allowance\",\"type\":\"uint256\"}],\"name\":\"PredictionMarket__InsufficientAllowance\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tradingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_userBalance\",\"type\":\"uint256\"}],\"name\":\"PredictionMarket__InsufficientBalance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__InsufficientLiquidity\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"_outcome\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_amountToken\",\"type\":\"uint256\"}],\"name\":\"PredictionMarket__InsufficientTokenReserve\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__InsufficientWinningTokens\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__InvalidPercentageToLock\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__InvalidProbability\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__MustProvideETHForInitialLiquidity\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__MustSendExactETHAmount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__OnlyOracleCanReport\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__OwnerCannotCall\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__PredictionAlreadyReported\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__PredictionNotReported\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PredictionMarket__TokenTransferFailed\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"provider\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"tokensAmount\",\"type\":\"uint256\"}],\"name\":\"LiquidityAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"provider\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"tokensAmount\",\"type\":\"uint256\"}],\"name\":\"LiquidityRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oracle\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"winningOutcome\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"winningToken\",\"type\":\"address\"}],\"name\":\"MarketReported\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"resolver\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"totalEthToSend\",\"type\":\"uint256\"}],\"name\":\"MarketResolved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"buyer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"outcome\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"}],\"name\":\"TokensPurchased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"seller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"outcome\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"}],\"name\":\"TokensSold\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"redeemer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"ethAmount\",\"type\":\"uint256\"}],\"name\":\"WinningTokensRedeemed\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"addLiquidity\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"_outcome\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_amountTokenToBuy\",\"type\":\"uint256\"}],\"name\":\"buyTokensWithETH\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"_outcome\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_tradingAmount\",\"type\":\"uint256\"}],\"name\":\"getBuyPriceInEth\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPrediction\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"question\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"outcome1\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"outcome2\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"oracle\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"initialTokenValue\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"yesTokenReserve\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"noTokenReserve\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isReported\",\"type\":\"bool\"},{\"internalType\":\"address\",\"name\":\"yesToken\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"noToken\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"winningToken\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"ethCollateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lpTradingRevenue\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"predictionMarketOwner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"initialProbability\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"percentageLocked\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"_outcome\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_tradingAmount\",\"type\":\"uint256\"}],\"name\":\"getSellPriceInEth\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"i_initialTokenValue\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"i_initialYesProbability\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"i_noToken\",\"outputs\":[{\"internalType\":\"contract PredictionMarketToken\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"i_oracle\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"i_percentageLocked\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"i_yesToken\",\"outputs\":[{\"internalType\":\"contract PredictionMarketToken\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"redeemWinningTokens\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_ethToWithdraw\",\"type\":\"uint256\"}],\"name\":\"removeLiquidity\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"_winningOutcome\",\"type\":\"uint8\"}],\"name\":\"report\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"resolveMarketAndWithdraw\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"ethRedeemed\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"s_ethCollateral\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"s_isReported\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"s_lpTradingRevenue\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"s_question\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"s_winningToken\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum PredictionMarket.Outcome\",\"name\":\"_outcome\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_tradingAmount\",\"type\":\"uint256\"}],\"name\":\"sellTokensForEth\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"addLiquidity()\":{\"details\":\"Only the owner can add liquidity and only if the prediction is not reported\"},\"buyTokensWithETH(uint8,uint256)\":{\"params\":{\"_amountTokenToBuy\":\"Amount of tokens to purchase\",\"_outcome\":\"The possible outcome (YES or NO) to buy tokens for\"}},\"getBuyPriceInEth(uint8,uint256)\":{\"params\":{\"_outcome\":\"The possible outcome (YES or NO) to buy tokens for\",\"_tradingAmount\":\"The amount of tokens to buy\"},\"returns\":{\"_0\":\"The total ETH price\"}},\"getSellPriceInEth(uint8,uint256)\":{\"params\":{\"_outcome\":\"The possible outcome (YES or NO) to sell tokens for\",\"_tradingAmount\":\"The amount of tokens to sell\"},\"returns\":{\"_0\":\"The total ETH price\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"redeemWinningTokens(uint256)\":{\"details\":\"Only if the prediction is resolved\",\"params\":{\"_amount\":\"The amount of winning tokens to redeem\"}},\"removeLiquidity(uint256)\":{\"details\":\"Only the owner can remove liquidity and only if the prediction is not reported\",\"params\":{\"_ethToWithdraw\":\"Amount of ETH to withdraw from liquidity pool\"}},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"report(uint8)\":{\"details\":\"Only the oracle can report the winning outcome and only if the prediction is not reported\",\"params\":{\"_winningOutcome\":\"The winning outcome (YES or NO)\"}},\"resolveMarketAndWithdraw()\":{\"details\":\"Only callable by the owner and only if the prediction is resolved\",\"returns\":{\"ethRedeemed\":\"The amount of ETH redeemed\"}},\"sellTokensForEth(uint8,uint256)\":{\"params\":{\"_outcome\":\"The possible outcome (YES or NO) to sell tokens for\",\"_tradingAmount\":\"The amount of tokens to sell\"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"errors\":{\"PredictionMarket__MustProvideETHForInitialLiquidity()\":[{\"notice\":\"Errors //////\"}]},\"events\":{\"TokensPurchased(address,uint8,uint256,uint256)\":{\"notice\":\"Events //////\"}},\"kind\":\"user\",\"methods\":{\"addLiquidity()\":{\"notice\":\"Add liquidity to the prediction market and mint tokens\"},\"buyTokensWithETH(uint8,uint256)\":{\"notice\":\"Buy prediction outcome tokens with ETH, need to call priceInETH function first to get right amount of tokens to buy\"},\"getBuyPriceInEth(uint8,uint256)\":{\"notice\":\"Calculate the total ETH price for buying tokens\"},\"getPrediction()\":{\"notice\":\"Get the prediction details\"},\"getSellPriceInEth(uint8,uint256)\":{\"notice\":\"Calculate the total ETH price for selling tokens\"},\"i_oracle()\":{\"notice\":\"Checkpoint 8 ///\"},\"redeemWinningTokens(uint256)\":{\"notice\":\"Redeem winning tokens for ETH after prediction is resolved, winning tokens are burned and user receives ETH\"},\"removeLiquidity(uint256)\":{\"notice\":\"Remove liquidity from the prediction market and burn respective tokens, if you remove liquidity before prediction ends you got no share of lpReserve\"},\"report(uint8)\":{\"notice\":\"Report the winning outcome for the prediction\"},\"resolveMarketAndWithdraw()\":{\"notice\":\"Owner of contract can redeem winning tokens held by the contract after prediction is resolved and get ETH from the contract including LP revenue and collateral back\"},\"sellTokensForEth(uint8,uint256)\":{\"notice\":\"Sell prediction outcome tokens for ETH, need to call priceInETH function first to get right amount of tokens to buy\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/PredictionMarket.sol\":\"PredictionMarket\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[],\"viaIR\":true},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/interfaces/draft-IERC6093.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (interfaces/draft-IERC6093.sol)\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Standard ERC20 Errors\\n * Interface of the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] custom errors for ERC20 tokens.\\n */\\ninterface IERC20Errors {\\n    /**\\n     * @dev Indicates an error related to the current `balance` of a `sender`. Used in transfers.\\n     * @param sender Address whose tokens are being transferred.\\n     * @param balance Current balance for the interacting account.\\n     * @param needed Minimum amount required to perform a transfer.\\n     */\\n    error ERC20InsufficientBalance(address sender, uint256 balance, uint256 needed);\\n\\n    /**\\n     * @dev Indicates a failure with the token `sender`. Used in transfers.\\n     * @param sender Address whose tokens are being transferred.\\n     */\\n    error ERC20InvalidSender(address sender);\\n\\n    /**\\n     * @dev Indicates a failure with the token `receiver`. Used in transfers.\\n     * @param receiver Address to which tokens are being transferred.\\n     */\\n    error ERC20InvalidReceiver(address receiver);\\n\\n    /**\\n     * @dev Indicates a failure with the `spender`\\u2019s `allowance`. Used in transfers.\\n     * @param spender Address that may be allowed to operate on tokens without being their owner.\\n     * @param allowance Amount of tokens a `spender` is allowed to operate with.\\n     * @param needed Minimum amount required to perform a transfer.\\n     */\\n    error ERC20InsufficientAllowance(address spender, uint256 allowance, uint256 needed);\\n\\n    /**\\n     * @dev Indicates a failure with the `approver` of a token to be approved. Used in approvals.\\n     * @param approver Address initiating an approval operation.\\n     */\\n    error ERC20InvalidApprover(address approver);\\n\\n    /**\\n     * @dev Indicates a failure with the `spender` to be approved. Used in approvals.\\n     * @param spender Address that may be allowed to operate on tokens without being their owner.\\n     */\\n    error ERC20InvalidSpender(address spender);\\n}\\n\\n/**\\n * @dev Standard ERC721 Errors\\n * Interface of the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] custom errors for ERC721 tokens.\\n */\\ninterface IERC721Errors {\\n    /**\\n     * @dev Indicates that an address can't be an owner. For example, `address(0)` is a forbidden owner in EIP-20.\\n     * Used in balance queries.\\n     * @param owner Address of the current owner of a token.\\n     */\\n    error ERC721InvalidOwner(address owner);\\n\\n    /**\\n     * @dev Indicates a `tokenId` whose `owner` is the zero address.\\n     * @param tokenId Identifier number of a token.\\n     */\\n    error ERC721NonexistentToken(uint256 tokenId);\\n\\n    /**\\n     * @dev Indicates an error related to the ownership over a particular token. Used in transfers.\\n     * @param sender Address whose tokens are being transferred.\\n     * @param tokenId Identifier number of a token.\\n     * @param owner Address of the current owner of a token.\\n     */\\n    error ERC721IncorrectOwner(address sender, uint256 tokenId, address owner);\\n\\n    /**\\n     * @dev Indicates a failure with the token `sender`. Used in transfers.\\n     * @param sender Address whose tokens are being transferred.\\n     */\\n    error ERC721InvalidSender(address sender);\\n\\n    /**\\n     * @dev Indicates a failure with the token `receiver`. Used in transfers.\\n     * @param receiver Address to which tokens are being transferred.\\n     */\\n    error ERC721InvalidReceiver(address receiver);\\n\\n    /**\\n     * @dev Indicates a failure with the `operator`\\u2019s approval. Used in transfers.\\n     * @param operator Address that may be allowed to operate on tokens without being their owner.\\n     * @param tokenId Identifier number of a token.\\n     */\\n    error ERC721InsufficientApproval(address operator, uint256 tokenId);\\n\\n    /**\\n     * @dev Indicates a failure with the `approver` of a token to be approved. Used in approvals.\\n     * @param approver Address initiating an approval operation.\\n     */\\n    error ERC721InvalidApprover(address approver);\\n\\n    /**\\n     * @dev Indicates a failure with the `operator` to be approved. Used in approvals.\\n     * @param operator Address that may be allowed to operate on tokens without being their owner.\\n     */\\n    error ERC721InvalidOperator(address operator);\\n}\\n\\n/**\\n * @dev Standard ERC1155 Errors\\n * Interface of the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] custom errors for ERC1155 tokens.\\n */\\ninterface IERC1155Errors {\\n    /**\\n     * @dev Indicates an error related to the current `balance` of a `sender`. Used in transfers.\\n     * @param sender Address whose tokens are being transferred.\\n     * @param balance Current balance for the interacting account.\\n     * @param needed Minimum amount required to perform a transfer.\\n     * @param tokenId Identifier number of a token.\\n     */\\n    error ERC1155InsufficientBalance(address sender, uint256 balance, uint256 needed, uint256 tokenId);\\n\\n    /**\\n     * @dev Indicates a failure with the token `sender`. Used in transfers.\\n     * @param sender Address whose tokens are being transferred.\\n     */\\n    error ERC1155InvalidSender(address sender);\\n\\n    /**\\n     * @dev Indicates a failure with the token `receiver`. Used in transfers.\\n     * @param receiver Address to which tokens are being transferred.\\n     */\\n    error ERC1155InvalidReceiver(address receiver);\\n\\n    /**\\n     * @dev Indicates a failure with the `operator`\\u2019s approval. Used in transfers.\\n     * @param operator Address that may be allowed to operate on tokens without being their owner.\\n     * @param owner Address of the current owner of a token.\\n     */\\n    error ERC1155MissingApprovalForAll(address operator, address owner);\\n\\n    /**\\n     * @dev Indicates a failure with the `approver` of a token to be approved. Used in approvals.\\n     * @param approver Address initiating an approval operation.\\n     */\\n    error ERC1155InvalidApprover(address approver);\\n\\n    /**\\n     * @dev Indicates a failure with the `operator` to be approved. Used in approvals.\\n     * @param operator Address that may be allowed to operate on tokens without being their owner.\\n     */\\n    error ERC1155InvalidOperator(address operator);\\n\\n    /**\\n     * @dev Indicates an array length mismatch between ids and values in a safeBatchTransferFrom operation.\\n     * Used in batch transfers.\\n     * @param idsLength Length of the array of token identifiers\\n     * @param valuesLength Length of the array of token amounts\\n     */\\n    error ERC1155InvalidArrayLength(uint256 idsLength, uint256 valuesLength);\\n}\\n\",\"keccak256\":\"0x60c65f701957fdd6faea1acb0bb45825791d473693ed9ecb34726fdfaa849dd7\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/ERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/ERC20.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {IERC20} from \\\"./IERC20.sol\\\";\\nimport {IERC20Metadata} from \\\"./extensions/IERC20Metadata.sol\\\";\\nimport {Context} from \\\"../../utils/Context.sol\\\";\\nimport {IERC20Errors} from \\\"../../interfaces/draft-IERC6093.sol\\\";\\n\\n/**\\n * @dev Implementation of the {IERC20} interface.\\n *\\n * This implementation is agnostic to the way tokens are created. This means\\n * that a supply mechanism has to be added in a derived contract using {_mint}.\\n *\\n * TIP: For a detailed writeup see our guide\\n * https://forum.openzeppelin.com/t/how-to-implement-erc20-supply-mechanisms/226[How\\n * to implement supply mechanisms].\\n *\\n * The default value of {decimals} is 18. To change this, you should override\\n * this function so it returns a different value.\\n *\\n * We have followed general OpenZeppelin Contracts guidelines: functions revert\\n * instead returning `false` on failure. This behavior is nonetheless\\n * conventional and does not conflict with the expectations of ERC20\\n * applications.\\n *\\n * Additionally, an {Approval} event is emitted on calls to {transferFrom}.\\n * This allows applications to reconstruct the allowance for all accounts just\\n * by listening to said events. Other implementations of the EIP may not emit\\n * these events, as it isn't required by the specification.\\n */\\nabstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {\\n    mapping(address account => uint256) private _balances;\\n\\n    mapping(address account => mapping(address spender => uint256)) private _allowances;\\n\\n    uint256 private _totalSupply;\\n\\n    string private _name;\\n    string private _symbol;\\n\\n    /**\\n     * @dev Sets the values for {name} and {symbol}.\\n     *\\n     * All two of these values are immutable: they can only be set once during\\n     * construction.\\n     */\\n    constructor(string memory name_, string memory symbol_) {\\n        _name = name_;\\n        _symbol = symbol_;\\n    }\\n\\n    /**\\n     * @dev Returns the name of the token.\\n     */\\n    function name() public view virtual returns (string memory) {\\n        return _name;\\n    }\\n\\n    /**\\n     * @dev Returns the symbol of the token, usually a shorter version of the\\n     * name.\\n     */\\n    function symbol() public view virtual returns (string memory) {\\n        return _symbol;\\n    }\\n\\n    /**\\n     * @dev Returns the number of decimals used to get its user representation.\\n     * For example, if `decimals` equals `2`, a balance of `505` tokens should\\n     * be displayed to a user as `5.05` (`505 / 10 ** 2`).\\n     *\\n     * Tokens usually opt for a value of 18, imitating the relationship between\\n     * Ether and Wei. This is the default value returned by this function, unless\\n     * it's overridden.\\n     *\\n     * NOTE: This information is only used for _display_ purposes: it in\\n     * no way affects any of the arithmetic of the contract, including\\n     * {IERC20-balanceOf} and {IERC20-transfer}.\\n     */\\n    function decimals() public view virtual returns (uint8) {\\n        return 18;\\n    }\\n\\n    /**\\n     * @dev See {IERC20-totalSupply}.\\n     */\\n    function totalSupply() public view virtual returns (uint256) {\\n        return _totalSupply;\\n    }\\n\\n    /**\\n     * @dev See {IERC20-balanceOf}.\\n     */\\n    function balanceOf(address account) public view virtual returns (uint256) {\\n        return _balances[account];\\n    }\\n\\n    /**\\n     * @dev See {IERC20-transfer}.\\n     *\\n     * Requirements:\\n     *\\n     * - `to` cannot be the zero address.\\n     * - the caller must have a balance of at least `value`.\\n     */\\n    function transfer(address to, uint256 value) public virtual returns (bool) {\\n        address owner = _msgSender();\\n        _transfer(owner, to, value);\\n        return true;\\n    }\\n\\n    /**\\n     * @dev See {IERC20-allowance}.\\n     */\\n    function allowance(address owner, address spender) public view virtual returns (uint256) {\\n        return _allowances[owner][spender];\\n    }\\n\\n    /**\\n     * @dev See {IERC20-approve}.\\n     *\\n     * NOTE: If `value` is the maximum `uint256`, the allowance is not updated on\\n     * `transferFrom`. This is semantically equivalent to an infinite approval.\\n     *\\n     * Requirements:\\n     *\\n     * - `spender` cannot be the zero address.\\n     */\\n    function approve(address spender, uint256 value) public virtual returns (bool) {\\n        address owner = _msgSender();\\n        _approve(owner, spender, value);\\n        return true;\\n    }\\n\\n    /**\\n     * @dev See {IERC20-transferFrom}.\\n     *\\n     * Emits an {Approval} event indicating the updated allowance. This is not\\n     * required by the EIP. See the note at the beginning of {ERC20}.\\n     *\\n     * NOTE: Does not update the allowance if the current allowance\\n     * is the maximum `uint256`.\\n     *\\n     * Requirements:\\n     *\\n     * - `from` and `to` cannot be the zero address.\\n     * - `from` must have a balance of at least `value`.\\n     * - the caller must have allowance for ``from``'s tokens of at least\\n     * `value`.\\n     */\\n    function transferFrom(address from, address to, uint256 value) public virtual returns (bool) {\\n        address spender = _msgSender();\\n        _spendAllowance(from, spender, value);\\n        _transfer(from, to, value);\\n        return true;\\n    }\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to`.\\n     *\\n     * This internal function is equivalent to {transfer}, and can be used to\\n     * e.g. implement automatic token fees, slashing mechanisms, etc.\\n     *\\n     * Emits a {Transfer} event.\\n     *\\n     * NOTE: This function is not virtual, {_update} should be overridden instead.\\n     */\\n    function _transfer(address from, address to, uint256 value) internal {\\n        if (from == address(0)) {\\n            revert ERC20InvalidSender(address(0));\\n        }\\n        if (to == address(0)) {\\n            revert ERC20InvalidReceiver(address(0));\\n        }\\n        _update(from, to, value);\\n    }\\n\\n    /**\\n     * @dev Transfers a `value` amount of tokens from `from` to `to`, or alternatively mints (or burns) if `from`\\n     * (or `to`) is the zero address. All customizations to transfers, mints, and burns should be done by overriding\\n     * this function.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function _update(address from, address to, uint256 value) internal virtual {\\n        if (from == address(0)) {\\n            // Overflow check required: The rest of the code assumes that totalSupply never overflows\\n            _totalSupply += value;\\n        } else {\\n            uint256 fromBalance = _balances[from];\\n            if (fromBalance < value) {\\n                revert ERC20InsufficientBalance(from, fromBalance, value);\\n            }\\n            unchecked {\\n                // Overflow not possible: value <= fromBalance <= totalSupply.\\n                _balances[from] = fromBalance - value;\\n            }\\n        }\\n\\n        if (to == address(0)) {\\n            unchecked {\\n                // Overflow not possible: value <= totalSupply or value <= fromBalance <= totalSupply.\\n                _totalSupply -= value;\\n            }\\n        } else {\\n            unchecked {\\n                // Overflow not possible: balance + value is at most totalSupply, which we know fits into a uint256.\\n                _balances[to] += value;\\n            }\\n        }\\n\\n        emit Transfer(from, to, value);\\n    }\\n\\n    /**\\n     * @dev Creates a `value` amount of tokens and assigns them to `account`, by transferring it from address(0).\\n     * Relies on the `_update` mechanism\\n     *\\n     * Emits a {Transfer} event with `from` set to the zero address.\\n     *\\n     * NOTE: This function is not virtual, {_update} should be overridden instead.\\n     */\\n    function _mint(address account, uint256 value) internal {\\n        if (account == address(0)) {\\n            revert ERC20InvalidReceiver(address(0));\\n        }\\n        _update(address(0), account, value);\\n    }\\n\\n    /**\\n     * @dev Destroys a `value` amount of tokens from `account`, lowering the total supply.\\n     * Relies on the `_update` mechanism.\\n     *\\n     * Emits a {Transfer} event with `to` set to the zero address.\\n     *\\n     * NOTE: This function is not virtual, {_update} should be overridden instead\\n     */\\n    function _burn(address account, uint256 value) internal {\\n        if (account == address(0)) {\\n            revert ERC20InvalidSender(address(0));\\n        }\\n        _update(account, address(0), value);\\n    }\\n\\n    /**\\n     * @dev Sets `value` as the allowance of `spender` over the `owner` s tokens.\\n     *\\n     * This internal function is equivalent to `approve`, and can be used to\\n     * e.g. set automatic allowances for certain subsystems, etc.\\n     *\\n     * Emits an {Approval} event.\\n     *\\n     * Requirements:\\n     *\\n     * - `owner` cannot be the zero address.\\n     * - `spender` cannot be the zero address.\\n     *\\n     * Overrides to this logic should be done to the variant with an additional `bool emitEvent` argument.\\n     */\\n    function _approve(address owner, address spender, uint256 value) internal {\\n        _approve(owner, spender, value, true);\\n    }\\n\\n    /**\\n     * @dev Variant of {_approve} with an optional flag to enable or disable the {Approval} event.\\n     *\\n     * By default (when calling {_approve}) the flag is set to true. On the other hand, approval changes made by\\n     * `_spendAllowance` during the `transferFrom` operation set the flag to false. This saves gas by not emitting any\\n     * `Approval` event during `transferFrom` operations.\\n     *\\n     * Anyone who wishes to continue emitting `Approval` events on the`transferFrom` operation can force the flag to\\n     * true using the following override:\\n     * ```\\n     * function _approve(address owner, address spender, uint256 value, bool) internal virtual override {\\n     *     super._approve(owner, spender, value, true);\\n     * }\\n     * ```\\n     *\\n     * Requirements are the same as {_approve}.\\n     */\\n    function _approve(address owner, address spender, uint256 value, bool emitEvent) internal virtual {\\n        if (owner == address(0)) {\\n            revert ERC20InvalidApprover(address(0));\\n        }\\n        if (spender == address(0)) {\\n            revert ERC20InvalidSpender(address(0));\\n        }\\n        _allowances[owner][spender] = value;\\n        if (emitEvent) {\\n            emit Approval(owner, spender, value);\\n        }\\n    }\\n\\n    /**\\n     * @dev Updates `owner` s allowance for `spender` based on spent `value`.\\n     *\\n     * Does not update the allowance value in case of infinite allowance.\\n     * Revert if not enough allowance is available.\\n     *\\n     * Does not emit an {Approval} event.\\n     */\\n    function _spendAllowance(address owner, address spender, uint256 value) internal virtual {\\n        uint256 currentAllowance = allowance(owner, spender);\\n        if (currentAllowance != type(uint256).max) {\\n            if (currentAllowance < value) {\\n                revert ERC20InsufficientAllowance(spender, currentAllowance, value);\\n            }\\n            unchecked {\\n                _approve(owner, spender, currentAllowance - value, false);\\n            }\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xc3e1fa9d1987f8d349dfb4d6fe93bf2ca014b52ba335cfac30bfe71e357e6f80\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/IERC20.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n\\n    /**\\n     * @dev Returns the value of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the value of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the\\n     * allowance mechanism. `value` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(address from, address to, uint256 value) external returns (bool);\\n}\\n\",\"keccak256\":\"0xc6a8ff0ea489379b61faa647490411b80102578440ab9d84e9a957cc12164e70\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/extensions/IERC20Metadata.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {IERC20} from \\\"../IERC20.sol\\\";\\n\\n/**\\n * @dev Interface for the optional metadata functions from the ERC20 standard.\\n */\\ninterface IERC20Metadata is IERC20 {\\n    /**\\n     * @dev Returns the name of the token.\\n     */\\n    function name() external view returns (string memory);\\n\\n    /**\\n     * @dev Returns the symbol of the token.\\n     */\\n    function symbol() external view returns (string memory);\\n\\n    /**\\n     * @dev Returns the decimals places of the token.\\n     */\\n    function decimals() external view returns (uint8);\\n}\\n\",\"keccak256\":\"0xaa761817f6cd7892fcf158b3c776b34551cde36f48ff9703d53898bc45a94ea2\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"contracts/PredictionMarket.sol\":{\"content\":\"//SPDX-License-Identifier: MIT\\r\\npragma solidity >=0.8.0 <0.9.0;\\r\\n\\r\\nimport { PredictionMarketToken } from \\\"./PredictionMarketToken.sol\\\";\\r\\nimport { Ownable } from \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\r\\n\\r\\ncontract PredictionMarket is Ownable {\\r\\n    /////////////////\\r\\n    /// Errors //////\\r\\n    /////////////////\\r\\n\\r\\n    error PredictionMarket__MustProvideETHForInitialLiquidity();\\r\\n    error PredictionMarket__InvalidProbability();\\r\\n    error PredictionMarket__PredictionAlreadyReported();\\r\\n    error PredictionMarket__OnlyOracleCanReport();\\r\\n    error PredictionMarket__OwnerCannotCall();\\r\\n    error PredictionMarket__PredictionNotReported();\\r\\n    error PredictionMarket__InsufficientWinningTokens();\\r\\n    error PredictionMarket__AmountMustBeGreaterThanZero();\\r\\n    error PredictionMarket__MustSendExactETHAmount();\\r\\n    error PredictionMarket__InsufficientTokenReserve(Outcome _outcome, uint256 _amountToken);\\r\\n    error PredictionMarket__TokenTransferFailed();\\r\\n    error PredictionMarket__ETHTransferFailed();\\r\\n    error PredictionMarket__InsufficientBalance(uint256 _tradingAmount, uint256 _userBalance);\\r\\n    error PredictionMarket__InsufficientAllowance(uint256 _tradingAmount, uint256 _allowance);\\r\\n    error PredictionMarket__InsufficientLiquidity();\\r\\n    error PredictionMarket__InvalidPercentageToLock();\\r\\n\\r\\n    //////////////////////////\\r\\n    /// State Variables //////\\r\\n    //////////////////////////\\r\\n\\r\\n    enum Outcome {\\r\\n        YES,\\r\\n        NO\\r\\n    }\\r\\n\\r\\n    uint256 private constant PRECISION = 1e18;\\r\\n\\r\\n    /// Checkpoint 2 ///\\r\\n\\r\\n    /// Checkpoint 3 ///\\r\\n\\r\\n    /// Checkpoint 5 ///\\r\\n\\r\\n    /////////////////////////\\r\\n    /// Events //////\\r\\n    /////////////////////////\\r\\n\\r\\n    event TokensPurchased(address indexed buyer, Outcome outcome, uint256 amount, uint256 ethAmount);\\r\\n    event TokensSold(address indexed seller, Outcome outcome, uint256 amount, uint256 ethAmount);\\r\\n    event WinningTokensRedeemed(address indexed redeemer, uint256 amount, uint256 ethAmount);\\r\\n    event MarketReported(address indexed oracle, Outcome winningOutcome, address winningToken);\\r\\n    event MarketResolved(address indexed resolver, uint256 totalEthToSend);\\r\\n    event LiquidityAdded(address indexed provider, uint256 ethAmount, uint256 tokensAmount);\\r\\n    event LiquidityRemoved(address indexed provider, uint256 ethAmount, uint256 tokensAmount);\\r\\n\\r\\n    /////////////////\\r\\n    /// Modifiers ///\\r\\n    /////////////////\\r\\n\\r\\n    /// Checkpoint 5 ///\\r\\n\\r\\n    /// Checkpoint 6 ///\\r\\n\\r\\n    /// Checkpoint 8 ///\\r\\n\\r\\n    //////////////////\\r\\n    ////Constructor///\\r\\n    //////////////////\\r\\n    address public immutable i_oracle;\\r\\n    uint256 public immutable i_initialTokenValue;\\r\\n    uint256 public immutable i_percentageLocked;\\r\\n    uint256 public immutable i_initialYesProbability;\\r\\n    PredictionMarketToken public immutable i_yesToken;\\r\\n    PredictionMarketToken public immutable i_noToken;\\r\\n    string public s_question;\\r\\n    uint256 public s_ethCollateral;\\r\\n    uint256 public s_lpTradingRevenue;\\r\\n    bool public s_isReported;\\r\\n    address public s_winningToken;\\r\\n\\r\\n    constructor(\\r\\n        address _liquidityProvider,\\r\\n        address _oracle,\\r\\n        string memory _question,\\r\\n        uint256 _initialTokenValue,\\r\\n        uint8 _initialYesProbability,\\r\\n        uint8 _percentageToLock\\r\\n    ) payable Ownable(_liquidityProvider) {\\r\\n        /// Checkpoint 2 ////\\r\\n        /// Checkpoint 3 ////\\r\\n        if (msg.value == 0) {\\r\\n            revert PredictionMarket__MustProvideETHForInitialLiquidity();\\r\\n        }\\r\\n        if (_initialYesProbability >= 100 || _initialYesProbability == 0) {\\r\\n            revert PredictionMarket__InvalidProbability();\\r\\n        }\\r\\n\\r\\n        if (_percentageToLock >= 100 || _percentageToLock == 0) {\\r\\n            revert PredictionMarket__InvalidPercentageToLock();\\r\\n        }\\r\\n\\r\\n        i_oracle = _oracle;\\r\\n        s_question = _question;\\r\\n        i_initialTokenValue = _initialTokenValue;\\r\\n        i_initialYesProbability = _initialYesProbability;\\r\\n        i_percentageLocked = _percentageToLock;\\r\\n\\r\\n        s_ethCollateral = msg.value;\\r\\n        uint intialVal = (msg.value * PRECISION) / _initialTokenValue;\\r\\n        i_yesToken = new PredictionMarketToken(\\\"YES\\\", \\\"Y\\\", msg.sender, intialVal);\\r\\n        i_noToken = new PredictionMarketToken(\\\"No\\\", \\\"N\\\", msg.sender, intialVal);\\r\\n\\r\\n        uint256 initialYesAmountLocked = (intialVal * _initialYesProbability * _percentageToLock * 2) / 10000;\\r\\n        uint256 initialNoAmountLocked = (intialVal * (100 - _initialYesProbability) * _percentageToLock * 2) / 10000;\\r\\n\\r\\n        bool success1 = i_yesToken.transfer(msg.sender, initialYesAmountLocked);\\r\\n        bool success2 = i_noToken.transfer(msg.sender, initialNoAmountLocked);\\r\\n        if (!success1 || !success2) {\\r\\n            revert PredictionMarket__TokenTransferFailed();\\r\\n        }\\r\\n    }\\r\\n\\r\\n    modifier predictionNotReported() {\\r\\n        if (s_isReported) {\\r\\n            revert PredictionMarket__PredictionAlreadyReported();\\r\\n        }\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    /////////////////\\r\\n    /// Functions ///\\r\\n    /////////////////\\r\\n\\r\\n    /**\\r\\n     * @notice Add liquidity to the prediction market and mint tokens\\r\\n     * @dev Only the owner can add liquidity and only if the prediction is not reported\\r\\n     */\\r\\n    function addLiquidity() external payable onlyOwner predictionNotReported {\\r\\n        //// Checkpoint 4 ////\\r\\n        s_ethCollateral += msg.value;\\r\\n\\r\\n        uint256 tokensAmount = (msg.value * PRECISION) / i_initialTokenValue;\\r\\n\\r\\n        i_yesToken.mint(address(this), tokensAmount);\\r\\n        i_noToken.mint(address(this), tokensAmount);\\r\\n\\r\\n        emit LiquidityAdded(msg.sender, msg.value, tokensAmount);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Remove liquidity from the prediction market and burn respective tokens, if you remove liquidity before prediction ends you got no share of lpReserve\\r\\n     * @dev Only the owner can remove liquidity and only if the prediction is not reported\\r\\n     * @param _ethToWithdraw Amount of ETH to withdraw from liquidity pool\\r\\n     */\\r\\n    function removeLiquidity(uint256 _ethToWithdraw) external onlyOwner predictionNotReported {\\r\\n        //// Checkpoint 4 ////\\r\\n\\r\\n        uint256 amountTokenToBurn = (_ethToWithdraw / i_initialTokenValue) * PRECISION;\\r\\n\\r\\n        if (amountTokenToBurn > (i_yesToken.balanceOf(address(this)))) {\\r\\n            revert PredictionMarket__InsufficientTokenReserve(Outcome.YES, amountTokenToBurn);\\r\\n        }\\r\\n\\r\\n        if (amountTokenToBurn > (i_noToken.balanceOf(address(this)))) {\\r\\n            revert PredictionMarket__InsufficientTokenReserve(Outcome.NO, amountTokenToBurn);\\r\\n        }\\r\\n\\r\\n        s_ethCollateral -= _ethToWithdraw;\\r\\n\\r\\n        i_yesToken.burn(address(this), amountTokenToBurn);\\r\\n        i_noToken.burn(address(this), amountTokenToBurn);\\r\\n\\r\\n        (bool success, ) = msg.sender.call{ value: _ethToWithdraw }(\\\"\\\");\\r\\n        if (!success) {\\r\\n            revert PredictionMarket__ETHTransferFailed();\\r\\n        }\\r\\n\\r\\n        emit LiquidityRemoved(msg.sender, _ethToWithdraw, amountTokenToBurn);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Report the winning outcome for the prediction\\r\\n     * @dev Only the oracle can report the winning outcome and only if the prediction is not reported\\r\\n     * @param _winningOutcome The winning outcome (YES or NO)\\r\\n     */\\r\\n    function report(Outcome _winningOutcome) external predictionNotReported {\\r\\n        //// Checkpoint 5 ////\\r\\n        if (msg.sender != i_oracle) {\\r\\n            revert PredictionMarket__OnlyOracleCanReport();\\r\\n        }\\r\\n        s_winningToken = _winningOutcome == Outcome.YES ? address(i_yesToken) : address(i_noToken);\\r\\n        s_isReported = true;\\r\\n        emit MarketReported(msg.sender, _winningOutcome, address(s_winningToken));\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Owner of contract can redeem winning tokens held by the contract after prediction is resolved and get ETH from the contract including LP revenue and collateral back\\r\\n     * @dev Only callable by the owner and only if the prediction is resolved\\r\\n     * @return ethRedeemed The amount of ETH redeemed\\r\\n     */\\r\\n    function resolveMarketAndWithdraw() external onlyOwner returns (uint256 ethRedeemed) {\\r\\n        /// Checkpoint 6 ////\\r\\n        if (!s_isReported) {\\r\\n            revert PredictionMarket__PredictionNotReported();\\r\\n        }\\r\\n        uint256 contractWinningTokens = PredictionMarketToken(s_winningToken).balanceOf(address(this));\\r\\n        if (contractWinningTokens > 0) {\\r\\n            ethRedeemed = (contractWinningTokens * i_initialTokenValue) / PRECISION;\\r\\n            if (ethRedeemed > s_ethCollateral) {\\r\\n                ethRedeemed = s_ethCollateral;\\r\\n            }\\r\\n            s_ethCollateral -= ethRedeemed;\\r\\n        }\\r\\n        uint256 totalEthToSend = ethRedeemed + s_lpTradingRevenue;\\r\\n        PredictionMarketToken(s_winningToken).burn(address(this), contractWinningTokens);\\r\\n        s_lpTradingRevenue = 0;\\r\\n        (bool success, ) = msg.sender.call{ value: totalEthToSend }(\\\"\\\");\\r\\n        if (!success) {\\r\\n            revert PredictionMarket__ETHTransferFailed();\\r\\n        }\\r\\n        emit MarketResolved(msg.sender, totalEthToSend);\\r\\n\\r\\n        return ethRedeemed;\\r\\n    }\\r\\n\\r\\n    modifier notOwner() {\\r\\n        if (msg.sender == owner()) {\\r\\n            revert PredictionMarket__OwnerCannotCall();\\r\\n        }\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    modifier amountGreaterThanZero(uint256 _amount) {\\r\\n        if (_amount == 0) {\\r\\n            revert PredictionMarket__AmountMustBeGreaterThanZero();\\r\\n        }\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Buy prediction outcome tokens with ETH, need to call priceInETH function first to get right amount of tokens to buy\\r\\n     * @param _outcome The possible outcome (YES or NO) to buy tokens for\\r\\n     * @param _amountTokenToBuy Amount of tokens to purchase\\r\\n     */\\r\\n    function buyTokensWithETH(\\r\\n        Outcome _outcome,\\r\\n        uint256 _amountTokenToBuy\\r\\n    ) external payable amountGreaterThanZero(_amountTokenToBuy) notOwner predictionNotReported {\\r\\n        /// Checkpoint 8 ////\\r\\n\\r\\n        //check token balance\\r\\n        uint contractTokenBalance = _outcome == Outcome.YES\\r\\n            ? i_yesToken.balanceOf(address(this))\\r\\n            : i_noToken.balanceOf(address(this));\\r\\n        if (contractTokenBalance < _amountTokenToBuy) {\\r\\n            revert PredictionMarket__InsufficientTokenReserve(_outcome, _amountTokenToBuy);\\r\\n        }\\r\\n        //calculate\\r\\n        uint256 priceInEth = getBuyPriceInEth(_outcome, _amountTokenToBuy);\\r\\n        if (msg.value != priceInEth) {\\r\\n            revert PredictionMarket__MustSendExactETHAmount();\\r\\n        }\\r\\n\\r\\n        s_lpTradingRevenue += msg.value;\\r\\n        //transfer tokens\\r\\n        bool success = _outcome == Outcome.YES\\r\\n            ? i_yesToken.transfer(msg.sender, _amountTokenToBuy)\\r\\n            : i_noToken.transfer(msg.sender, _amountTokenToBuy);\\r\\n        if (!success) {\\r\\n            revert PredictionMarket__TokenTransferFailed();\\r\\n        }\\r\\n        emit TokensPurchased(msg.sender, _outcome, _amountTokenToBuy, msg.value);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Sell prediction outcome tokens for ETH, need to call priceInETH function first to get right amount of tokens to buy\\r\\n     * @param _outcome The possible outcome (YES or NO) to sell tokens for\\r\\n     * @param _tradingAmount The amount of tokens to sell\\r\\n     */\\r\\n    function sellTokensForEth(\\r\\n        Outcome _outcome,\\r\\n        uint256 _tradingAmount\\r\\n    ) external amountGreaterThanZero(_tradingAmount) notOwner predictionNotReported {\\r\\n        PredictionMarketToken optionToken = _outcome == Outcome.YES ? i_yesToken : i_noToken;\\r\\n        uint256 userBalance = optionToken.balanceOf(msg.sender);\\r\\n        if (userBalance < _tradingAmount) {\\r\\n            revert PredictionMarket__InsufficientBalance(_tradingAmount, userBalance);\\r\\n        }\\r\\n\\r\\n        uint256 allowance = optionToken.allowance(msg.sender, address(this));\\r\\n        if (allowance < _tradingAmount) {\\r\\n            revert PredictionMarket__InsufficientAllowance(_tradingAmount, allowance);\\r\\n        }\\r\\n\\r\\n        uint256 ethToReceive = getSellPriceInEth(_outcome, _tradingAmount);\\r\\n\\r\\n        s_lpTradingRevenue -= ethToReceive;\\r\\n\\r\\n        (bool sent, ) = msg.sender.call{ value: ethToReceive }(\\\"\\\");\\r\\n        if (!sent) {\\r\\n            revert PredictionMarket__ETHTransferFailed();\\r\\n        }\\r\\n\\r\\n        bool success = optionToken.transferFrom(msg.sender, address(this), _tradingAmount);\\r\\n        if (!success) {\\r\\n            revert PredictionMarket__TokenTransferFailed();\\r\\n        }\\r\\n\\r\\n        emit TokensSold(msg.sender, _outcome, _tradingAmount, ethToReceive);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Redeem winning tokens for ETH after prediction is resolved, winning tokens are burned and user receives ETH\\r\\n     * @dev Only if the prediction is resolved\\r\\n     * @param _amount The amount of winning tokens to redeem\\r\\n     */\\r\\n\\r\\n    function redeemWinningTokens(uint256 _amount) external amountGreaterThanZero(_amount) notOwner {\\r\\n        /// Checkpoint 9 ////\\r\\n        if (!s_isReported) {\\r\\n            revert PredictionMarket__PredictionNotReported();\\r\\n        }\\r\\n        if (PredictionMarketToken(s_winningToken).balanceOf(msg.sender) < _amount) {\\r\\n            revert PredictionMarket__InsufficientWinningTokens();\\r\\n        }\\r\\n\\r\\n        uint256 ethToReceive = (_amount * i_initialTokenValue) / PRECISION;\\r\\n\\r\\n        s_ethCollateral -= ethToReceive;\\r\\n\\r\\n        PredictionMarketToken(s_winningToken).burn(msg.sender, _amount);\\r\\n\\r\\n        (bool success, ) = msg.sender.call{ value: ethToReceive }(\\\"\\\");\\r\\n        if (!success) {\\r\\n            revert PredictionMarket__ETHTransferFailed();\\r\\n        }\\r\\n\\r\\n        emit WinningTokensRedeemed(msg.sender, _amount, ethToReceive);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Calculate the total ETH price for buying tokens\\r\\n     * @param _outcome The possible outcome (YES or NO) to buy tokens for\\r\\n     * @param _tradingAmount The amount of tokens to buy\\r\\n     * @return The total ETH price\\r\\n     */\\r\\n    function getBuyPriceInEth(Outcome _outcome, uint256 _tradingAmount) public view returns (uint256) {\\r\\n        /// Checkpoint 7 ////\\r\\n        return _calculatePriceInEth(_outcome, _tradingAmount, false);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @notice Calculate the total ETH price for selling tokens\\r\\n     * @param _outcome The possible outcome (YES or NO) to sell tokens for\\r\\n     * @param _tradingAmount The amount of tokens to sell\\r\\n     * @return The total ETH price\\r\\n     */\\r\\n    function getSellPriceInEth(Outcome _outcome, uint256 _tradingAmount) public view returns (uint256) {\\r\\n        /// Checkpoint 7 ////\\r\\n        return _calculatePriceInEth(_outcome, _tradingAmount, true);\\r\\n    }\\r\\n\\r\\n    /////////////////////////\\r\\n    /// Helper Functions ///\\r\\n    ////////////////////////\\r\\n\\r\\n    /**\\r\\n     * @dev Internal helper to calculate ETH price for both buying and selling\\r\\n     * @param _outcome The possible outcome (YES or NO)\\r\\n     * @param _tradingAmount The amount of tokens\\r\\n     * @param _isSelling Whether this is a sell calculation\\r\\n     */\\r\\n    function _calculatePriceInEth(\\r\\n        Outcome _outcome,\\r\\n        uint256 _tradingAmount,\\r\\n        bool _isSelling\\r\\n    ) private view returns (uint256) {\\r\\n        /// Checkpoint 7 ////\\r\\n        (uint256 currentTokenReserve, uint256 currentOtherTokenReserve) = _getCurrentReserves(_outcome);\\r\\n\\r\\n        /// Ensure sufficient liquidity when buying\\r\\n        if (!_isSelling) {\\r\\n            if (currentTokenReserve < _tradingAmount) {\\r\\n                revert PredictionMarket__InsufficientLiquidity();\\r\\n            }\\r\\n        }\\r\\n\\r\\n        uint256 totalTokenSupply = i_yesToken.totalSupply();\\r\\n\\r\\n        /// Before trade\\r\\n        uint256 currentTokenSoldBefore = totalTokenSupply - currentTokenReserve;\\r\\n        uint256 currentOtherTokenSold = totalTokenSupply - currentOtherTokenReserve;\\r\\n\\r\\n        uint256 totalTokensSoldBefore = currentTokenSoldBefore + currentOtherTokenSold;\\r\\n        uint256 probabilityBefore = _calculateProbability(currentTokenSoldBefore, totalTokensSoldBefore);\\r\\n\\r\\n        /// After trade\\r\\n        uint256 currentTokenReserveAfter = _isSelling\\r\\n            ? currentTokenReserve + _tradingAmount\\r\\n            : currentTokenReserve - _tradingAmount;\\r\\n        uint256 currentTokenSoldAfter = totalTokenSupply - currentTokenReserveAfter;\\r\\n\\r\\n        uint256 totalTokensSoldAfter = _isSelling\\r\\n            ? totalTokensSoldBefore - _tradingAmount\\r\\n            : totalTokensSoldBefore + _tradingAmount;\\r\\n\\r\\n        uint256 probabilityAfter = _calculateProbability(currentTokenSoldAfter, totalTokensSoldAfter);\\r\\n\\r\\n        /// Compute final price\\r\\n        uint256 probabilityAvg = (probabilityBefore + probabilityAfter) / 2;\\r\\n        return (i_initialTokenValue * probabilityAvg * _tradingAmount) / (PRECISION * PRECISION);\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Internal helper to get the current reserves of the tokens\\r\\n     * @param _outcome The possible outcome (YES or NO)\\r\\n     * @return The current reserves of the tokens\\r\\n     */\\r\\n    function _getCurrentReserves(Outcome _outcome) private view returns (uint256, uint256) {\\r\\n        /// Checkpoint 7 ////\\r\\n        uint256 yesReserve = i_yesToken.balanceOf(address(this));\\r\\n        uint256 noReserve = i_noToken.balanceOf(address(this));\\r\\n        if (_outcome == Outcome.YES) {\\r\\n            return (yesReserve, noReserve);\\r\\n        } else {\\r\\n            return (noReserve, yesReserve);\\r\\n        }\\r\\n    }\\r\\n\\r\\n    /**\\r\\n     * @dev Internal helper to calculate the probability of the tokens\\r\\n     * @param tokensSold The number of tokens sold\\r\\n     * @param totalSold The total number of tokens sold\\r\\n     * @return The probability of the tokens\\r\\n     */\\r\\n    function _calculateProbability(uint256 tokensSold, uint256 totalSold) private pure returns (uint256) {\\r\\n        /// Checkpoint 7 ////\\r\\n        return (tokensSold * PRECISION) / totalSold;\\r\\n    }\\r\\n\\r\\n    /////////////////////////\\r\\n    /// Getter Functions ///\\r\\n    ////////////////////////\\r\\n\\r\\n    /**\\r\\n     * @notice Get the prediction details\\r\\n     */\\r\\n    function getPrediction()\\r\\n        external\\r\\n        view\\r\\n        returns (\\r\\n            string memory question,\\r\\n            string memory outcome1,\\r\\n            string memory outcome2,\\r\\n            address oracle,\\r\\n            uint256 initialTokenValue,\\r\\n            uint256 yesTokenReserve,\\r\\n            uint256 noTokenReserve,\\r\\n            bool isReported,\\r\\n            address yesToken,\\r\\n            address noToken,\\r\\n            address winningToken,\\r\\n            uint256 ethCollateral,\\r\\n            uint256 lpTradingRevenue,\\r\\n            address predictionMarketOwner,\\r\\n            uint256 initialProbability,\\r\\n            uint256 percentageLocked\\r\\n        )\\r\\n    {\\r\\n        /// Checkpoint 3 ////\\r\\n        oracle = i_oracle;\\r\\n        initialTokenValue = i_initialTokenValue;\\r\\n        percentageLocked = i_percentageLocked;\\r\\n        initialProbability = i_initialYesProbability;\\r\\n        question = s_question;\\r\\n        ethCollateral = s_ethCollateral;\\r\\n        lpTradingRevenue = s_lpTradingRevenue;\\r\\n        predictionMarketOwner = owner();\\r\\n        yesToken = address(i_yesToken);\\r\\n        noToken = address(i_noToken);\\r\\n        outcome1 = i_yesToken.name();\\r\\n        outcome2 = i_noToken.name();\\r\\n        yesTokenReserve = i_yesToken.balanceOf(address(this));\\r\\n        noTokenReserve = i_noToken.balanceOf(address(this));\\r\\n        // / Checkpoint 5 ////\\r\\n        isReported = s_isReported;\\r\\n        winningToken = address(s_winningToken);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x8e9fb6e04d3b6030b9ff4753a66d2bab1e18bec2abdd3d5c3c41bc2cc7c9f28e\",\"license\":\"MIT\"},\"contracts/PredictionMarketToken.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity >=0.8.0 <0.9.0;\\n\\nimport \\\"@openzeppelin/contracts/token/ERC20/ERC20.sol\\\";\\n\\ncontract PredictionMarketToken is ERC20 {\\n    error PredictionMarketToken__OnlyPredictionMarketCanMint();\\n    error PredictionMarketToken__OnlyPredictionMarketCanBurn();\\n    error PredictionMarketToken__LiquidityProviderCantTransfer();\\n\\n    address public predictionMarket;\\n    address public liquidityProvider;\\n\\n    constructor(\\n        string memory name,\\n        string memory symbol,\\n        address _liquidityProvider,\\n        uint256 initialSupply\\n    ) ERC20(name, symbol) {\\n        predictionMarket = msg.sender;\\n        liquidityProvider = _liquidityProvider;\\n        _mint(msg.sender, initialSupply);\\n    }\\n\\n    function mint(address to, uint256 amount) external {\\n        if (msg.sender != predictionMarket) {\\n            revert PredictionMarketToken__OnlyPredictionMarketCanMint();\\n        }\\n        _mint(to, amount);\\n    }\\n\\n    function burn(address from, uint256 amount) external {\\n        if (msg.sender != predictionMarket) {\\n            revert PredictionMarketToken__OnlyPredictionMarketCanBurn();\\n        }\\n        _burn(from, amount);\\n    }\\n\\n    function transfer(address to, uint256 amount) public override returns (bool) {\\n        if (msg.sender == liquidityProvider) {\\n            revert PredictionMarketToken__LiquidityProviderCantTransfer();\\n        }\\n        return super.transfer(to, amount);\\n    }\\n\\n    function transferFrom(address from, address to, uint256 amount) public override returns (bool) {\\n        if (from == liquidityProvider) {\\n            revert PredictionMarketToken__LiquidityProviderCantTransfer();\\n        }\\n        return super.transferFrom(from, to, amount);\\n    }\\n}\\n\",\"keccak256\":\"0x40c7d7a0f6636063f6ebfb5600755da37ad5e67d84bdb082e54001525eb0896b\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x6101406040908082526200330a80380380916200001d8285620006f9565b833981019160c0918281850312620006f4576200003a816200071d565b9160206200004a8184016200071d565b8383015190946001600160401b03949091858111620006f457810190601f898184011215620006f457825199878b116200056257865193601f19929162000098838e018516890187620006f9565b8c8652878d83010111620006f45760005b8c8110620006e0575050600086620000d79c86010152606083015191620000df60a060809d8e870162000732565b950162000732565b6001600160a01b039690949087168015620006c857600080546001600160a01b03198116831782558b519291908a16907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09080a33415620006b9575060ff169360648510801590620006b0575b6200069f5760ff169960648b1080159062000696575b62000685578c5284519189831162000562576001958654928784811c941680156200067a575b8a851014620006645783838695116200060a575b5089928411600114620005a5575060009262000599575b5050600019600383901b1c191690841b1783555b8060a0528160e05287895234600255670de0b6b3a7640000803402903482040362000541578115620005835704855196610d86808901898110838211176200056257898d91878e60036200258495878787398085528401526259455360e81b60a0840152808c840152820152605960f81b60e0820152338b8201528560608201526101009b8c910301906000f0801562000578578a5288519282840190811184821017620005625760028e8c9486948539808352820152614e6f60f01b60a08201528c89820152868d820152602760f91b60e0820152338a8201528460608201520301906000f09788156200055757610120988952620002d381620002cd858562000741565b62000741565b9283851b9380850460021490151715620005415760640360ff81116200054157620003079260ff620002cd92169062000741565b80921b918083046002149015171562000541578551855163a9059cbb60e01b808252336004830152612710938490046024830152909390918690859060449082906000908a165af1938415620005365790869392916000956200050c575b50895188519283523360048401529290046024820152929383911681600081604481015b03925af19283156200050157600093620004cb575b505015908115620004c1575b50620004b1575192611e149485620007708639518481816105a101528181610b1e0152611175015260a05184818161025101528181610411015281816105c80152818161076a015281816110d5015281816112240152611b020152518381816106520152610a7f015260e0518381816101de015261062b015251828181610281015281816104c1015281816107c701528181610b7a01528181610c4901528181610d160152818161145b015281816114e601528181611a4401528181611ba10152611c8d0152518181816102ec0152818161049d0152818161080801528181610bdc01528181610f310152818161139b015281816115a6015281816116880152611cd50152f35b516318161dad60e21b8152600490fd5b90501538620003aa565b620004f0929350803d10620004f9575b620004e78183620006f9565b81019062000755565b9038806200039e565b503d620004db565b84513d6000823e3d90fd5b6200038995506200052e600091863d8811620004f957620004e78183620006f9565b955062000365565b87513d6000823e3d90fd5b634e487b7160e01b600052601160045260246000fd5b86513d6000823e3d90fd5b634e487b7160e01b600052604160045260246000fd5b89513d6000823e3d90fd5b634e487b7160e01b600052601260045260246000fd5b015190503880620001b3565b8794929192169184600052896000209260005b8b828210620005f35750508411620005d9575b505050811b018355620001c7565b015160001960f88460031b161c19169055388080620005cb565b8385015186558a97909501949384019301620005b8565b909192935087600052896000208480870160051c8201928c88106200065a575b9187968b92969594930160051c01915b8281106200064a5750506200019c565b600081558796508a91016200063a565b925081926200062a565b634e487b7160e01b600052602260045260246000fd5b93607f169362000188565b885163103731c360e21b8152600490fd5b508a1562000162565b88516324f7391760e21b8152600490fd5b5084156200014c565b63fe6ef5a160e01b8152600490fd5b8951631e4fbdf760e01b815260006004820152602490fd5b8181018801518682018901528701620000a9565b600080fd5b601f909101601f19168101906001600160401b038211908210176200056257604052565b51906001600160a01b0382168203620006f457565b519060ff82168203620006f457565b818102929181159184041417156200054157565b90816020910312620006f457518015158103620006f4579056fe608060408181526004908136101561001657600080fd5b600092833560e01c90816306a9cd5e146113ff5750806314926d98146113ca5780631816ca6f146113865780632dc7fd761461136a5780634c5b59a5146111a45780635cb2deb51461116057806365e23abc14610f9757806370a38aee14610cd2578063715018a614610c7857806379b3d94a14610c345780637c1bb47e14610c11578063892d0f5014610ae95780638da5cb5b14610ac15780638dfeb95214610aa2578063910ec81b14610a6757806391c721e314610a3b5780639c8f9f231461073b5780639f615ee11461045a578063aa7a939914610434578063ac3b90bb146103f9578063df592ec3146103da578063e8078d9414610205578063f1ce1640146101c65763f2fde38b1461012c57600080fd5b346101c25760203660031901126101c2576001600160a01b038235818116939192908490036101be5761015d6118ce565b83156101a8575050600054826bffffffffffffffffffffffff60a01b821617600055167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0600080a380f35b51631e4fbdf760e01b8152908101849052602490fd5b8480fd5b8280fd5b838234610201578160031936011261020157602090517f00000000000000000000000000000000000000000000000000000000000000008152f35b5080fd5b50826003193601126101c2576102196118ce565b60ff8254166103cd5761022e346002546118fa565b600255670de0b6b3a76400008034029034820414341517156103ba5761027684917f00000000000000000000000000000000000000000000000000000000000000009061194d565b926001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081169190823b156103985784516340c10f1960e01b80825230848301908152602081018990529094869183919082908490829060400103925af180156103b05790859161039c575b50507f00000000000000000000000000000000000000000000000000000000000000001691823b15610398578451908152309181019182526020820186905291839183919082908490829060400103925af1801561038e5761037a575b5050807fac1d76749e5447b7b16f5ab61447e1bd502f3bb4807af3b28e620d1700a6ee4591519234845260208401523392a280f35b61038390611752565b6101c2578238610345565b83513d84823e3d90fd5b8380fd5b6103a590611752565b6103985783386102e8565b86513d87823e3d90fd5b634e487b7160e01b845260118352602484fd5b516378e34bb960e01b8152fd5b8382346102015781600319360112610201576020906002549051908152f35b838234610201578160031936011261020157602090517f00000000000000000000000000000000000000000000000000000000000000008152f35b5082346104575780600319360112610457575060ff602092541690519015158152f35b80fd5b5082903461020157816003193601126102015761047561179e565b600254600354845484516306fdde0360e01b80825294966001600160a01b03928316959394937f00000000000000000000000000000000000000000000000000000000000000008416917f000000000000000000000000000000000000000000000000000000000000000085169181858d81865afa94851561071557829561071f575b50895190815281818d81875afa9081156107155782916106f3575b508951996370a0823160e01b9c8d8c5230818d015260209d8e8d602481895afa9c8d156106e9578f90869e6106ba575b5083519182523083830152816024818a5afa9485156106af579461067b575b50549581519d8e809e610200808352820161057c916118a9565b9181830391015261058c916118a9565b908c8203908d015261059d916118a9565b98857f00000000000000000000000000000000000000000000000000000000000000001660608c01527f000000000000000000000000000000000000000000000000000000000000000060808c015260a08b015260c08a015260ff8316151560e08a015261010089015261012088015260081c166101408601526101608501526101808401526101a08301527f00000000000000000000000000000000000000000000000000000000000000006101c08301527f00000000000000000000000000000000000000000000000000000000000000006101e08301520390f35b9093508d81813d83116106a8575b610693818361177c565b810103126106a35751928e610562565b600080fd5b503d610689565b8351903d90823e3d90fd5b809e50813d83116106e2575b6106d0818361177c565b810103126106a3578e9c519c38610543565b503d6106c6565b83513d87823e3d90fd5b61070f91503d8084833e610707818361177c565b810190611d7f565b8c610513565b8a513d84823e3d90fd5b6107349195503d8084833e610707818361177c565b938c6104f8565b5082903461020157602090816003193601126101c25783359161075c6118ce565b60ff855416610a2b5761078f7f00000000000000000000000000000000000000000000000000000000000000008461194d565b90670de0b6b3a764000091828102928184041490151715610a185782516370a0823160e01b8082523088830152906001600160a01b037f00000000000000000000000000000000000000000000000000000000000000008116918481602481865afa908115610a0e5789916109e1575b5085116109c3577f00000000000000000000000000000000000000000000000000000000000000001691855190815230898201528381602481865afa90811561096e578891610996575b5084116109785761085c86600254611990565b600255803b15610956578451632770a7eb60e21b80825230828b01908152602081018790529092899183919082908490829060400103925af1801561096e5790889161095a575b5050813b1561095657845190815230818901908152602081018590529091879183919082908490829060400103925af1801561094c57908691610938575b5080808087335af16108f16119b9565b501561092857825193845283015233917f96cd817c6329656790ef8fba7675405193677d39619571282f5e21f3a98cd0599190a280f35b8251632fdb18b560e01b81528690fd5b61094190611752565b6101be5784876108e1565b84513d88823e3d90fd5b8680fd5b61096390611752565b6109565786896108a3565b86513d8a823e3d90fd5b845163a4d71b8160e01b81526001818a015260248101859052604490fd5b90508381813d83116109bc575b6109ad818361177c565b810103126106a3575189610849565b503d6109a3565b855163a4d71b8160e01b81526000818b015260248101869052604490fd5b90508481813d8311610a07575b6109f8818361177c565b810103126106a357518a6107ff565b503d6109ee565b87513d8b823e3d90fd5b634e487b7160e01b855260118652602485fd5b81516378e34bb960e01b81528590fd5b5090346101c257826003193601126101c25754905160089190911c6001600160a01b0316815260209150f35b838234610201578160031936011261020157602090517f00000000000000000000000000000000000000000000000000000000000000008152f35b8382346102015781600319360112610201576020906003549051908152f35b838234610201578160031936011261020157905490516001600160a01b039091168152602090f35b508290346102015760203660031901126102015782359060028210156101c257835460ff8116610a2b576001600160a01b03907f000000000000000000000000000000000000000000000000000000000000000082163303610c015794600185967f54abe5cff8746fc59eefd3a10a4e9821354cd951ffef23d64fdb7939b6e2e4199596508615600014610bd957837f0000000000000000000000000000000000000000000000000000000000000000165b6101008360a81b039060081b16906affffffffffffffffffffff60a81b161717809155610bca8351809661196d565b60081c1660208401523392a280f35b837f000000000000000000000000000000000000000000000000000000000000000016610b9b565b825163d101b32160e01b81528690fd5b83823461020157602090610c2d610c2736611733565b90611b82565b9051908152f35b838234610201578160031936011261020157517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b8334610457578060031936011261045757610c916118ce565b600080546001600160a01b0319811682556001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a380f35b5090346101c257610ce236611733565b90928115610f885784546001600160a01b039081163314610f785760ff845416610f68576002851015610f555784610f2f577f00000000000000000000000000000000000000000000000000000000000000005b169281516370a0823160e01b815233828201526020908181602481895afa908115610e83578891610f02575b50848110610ee657508251636eb1769f60e11b815233838201523060248201528181604481895afa908115610e83578891610eb9575b50848110610e9d5750610dab8487611b82565b94610db886600354611990565b6003558780808089335af1610dcb6119b9565b5015610e8d5781889160648651809481936323b872dd60e01b835233898401523060248401528a60448401525af1918215610e83578892610e56575b505015610e48575090610e427fdb6c1cc84b96330a9be015b7f4d49df42a035945bf4bc3423e48a6e4259dbb7b939251928392339684611a01565b0390a280f35b90516318161dad60e21b8152fd5b610e759250803d10610e7c575b610e6d818361177c565b8101906119e9565b3880610e07565b503d610e63565b84513d8a823e3d90fd5b8351632fdb18b560e01b81528390fd5b90508360449351926377594e6960e01b84528301526024820152fd5b90508181813d8311610edf575b610ed0818361177c565b810103126106a3575138610d98565b503d610ec6565b905083604493519263053ab6d560e21b84528301526024820152fd5b90508181813d8311610f28575b610f19818361177c565b810103126106a3575138610d62565b503d610f0f565b7f0000000000000000000000000000000000000000000000000000000000000000610d36565b634e487b7160e01b865260218452602486fd5b81516378e34bb960e01b81528490fd5b815163086b2ac360e41b81528490fd5b51632688641b60e21b81529050fd5b50829034610201578160031936011261020157610fb26118ce565b81835460ff8116156111505782516370a0823160e01b815230818701526020959092909160081c6001600160a01b03168684602481845afa9384156110bb578294611121575b50836110c5575b61100b600354876118fa565b93813b156101c2578551632770a7eb60e21b815230858201908152602081019290925291839183919082908490829060400103925af180156110bb579082916110a7575b5060035580808085335af16110626119b9565b5015611099575081519081527f316a0bcd9820c43f9ba8738fd680d536a8ac65080f56f96833f696f6dd5a12fd843392a251908152f35b8251632fdb18b560e01b8152fd5b6110b090611752565b61045757808761104f565b85513d84823e3d90fd5b9450670de0b6b3a76400006110fa7f00000000000000000000000000000000000000000000000000000000000000008561193a565b0494600254808711611119575b8661111191611990565b600255610fff565b955085611107565b9093508681813d8311611149575b611139818361177c565b810103126106a357519287610ff8565b503d61112f565b8251635fd4000d60e11b81528590fd5b838234610201578160031936011261020157517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b5082903461020157602090816003193601126101c257833591821561135a5783546001600160a01b03908116331461134a57855460ff81161561133a5760081c169082516370a0823160e01b815233878201528181602481865afa90811561094c579085918791611309575b50106112f957670de0b6b3a76400006112497f00000000000000000000000000000000000000000000000000000000000000008661193a565b049161125783600254611990565b600255803b156112f5578351632770a7eb60e21b815233818901908152602081018790529091879183919082908490829060400103925af1801561094c576112e2575b508480808085335af16112ab6119b9565b501561092857825193845283015233917faeb4b315a6442ab135da41b9b7b337c712b68e5a6051ef6299965f3e58dbebbb9190a280f35b6112ee90959195611752565b938661129a565b8580fd5b82516328f48e2f60e01b81528690fd5b809250838092503d8311611333575b611322818361177c565b810103126112f55784905188611210565b503d611318565b8351635fd4000d60e11b81528790fd5b825163086b2ac360e41b81528690fd5b8151632688641b60e21b81528590fd5b83823461020157602090610c2d61138036611733565b90611a1e565b838234610201578160031936011261020157517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b8382346102015781600319360112610201576113fb906113e861179e565b90519182916020835260208301906118a9565b0390f35b91905061140b36611733565b9390928415611727575084546001600160a01b0390811633146117185760ff8254166117095760028410156116f6578315801561166f5783516370a0823160e01b815230848201526020816024817f000000000000000000000000000000000000000000000000000000000000000087165afa90811561166557908791899161162d575b505b1061160a576114a08686611a1e565b34036115fa576114b2346003546118fa565b6003551561157a57825163a9059cbb60e01b81523383820190815260208181018890529192839182908a90829060400103927f0000000000000000000000000000000000000000000000000000000000000000165af1908115611570578691611552575b505b15610e4857507f78408fb808ae2018d121a91ae47221eb4b85530dc14522ce2ddcb93083e269d691610e4291519182913395349184611a01565b61156a915060203d8111610e7c57610e6d818361177c565b38611516565b83513d88823e3d90fd5b825163a9059cbb60e01b81523383820190815260208181018890529192839182908a90829060400103927f0000000000000000000000000000000000000000000000000000000000000000165af19081156115705786916115dc575b50611518565b6115f4915060203d8111610e7c57610e6d818361177c565b386115d6565b83516309c860a960e31b81528390fd5b835163a4d71b8160e01b8152604490876116268287018961196d565b6024820152fd5b9150506020813d821161165d575b816116486020938361177c565b81010312611659578690513861148f565b8780fd5b3d915061163b565b85513d8a823e3d90fd5b83516370a0823160e01b815230848201526020816024817f000000000000000000000000000000000000000000000000000000000000000087165afa9081156116655790879189916116c2575b50611491565b9150506020813d82116116ee575b816116dd6020938361177c565b8101031261165957869051386116bc565b3d91506116d0565b634e487b7160e01b865260218252602486fd5b5090516378e34bb960e01b8152fd5b50905163086b2ac360e41b8152fd5b632688641b60e21b8152fd5b60409060031901126106a35760043560028110156106a3579060243590565b67ffffffffffffffff811161176657604052565b634e487b7160e01b600052604160045260246000fd5b90601f8019910116810190811067ffffffffffffffff82111761176657604052565b60405190600060019081549182811c9080841693841561187c575b6020948584108114611868578388528794939291811561184857506001146117ec575b50506117ea9250038361177c565b565b60008181527fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf695935091905b8183106118305750506117ea935082010138806117dc565b85548884018501529485019487945091830191611818565b9150506117ea94925060ff191682840152151560051b82010138806117dc565b634e487b7160e01b85526022600452602485fd5b91607f16916117b9565b60005b8381106118995750506000910152565b8181015183820152602001611889565b906020916118c281518092818552858086019101611886565b601f01601f1916010190565b6000546001600160a01b031633036118e257565b60405163118cdaa760e01b8152336004820152602490fd5b9190820180921161190757565b634e487b7160e01b600052601160045260246000fd5b90670de0b6b3a76400009182810292818404149015171561190757565b8181029291811591840414171561190757565b8115611957570490565b634e487b7160e01b600052601260045260246000fd5b90600282101561197a5752565b634e487b7160e01b600052602160045260246000fd5b9190820391821161190757565b67ffffffffffffffff811161176657601f01601f191660200190565b3d156119e4573d906119ca8261199d565b916119d8604051938461177c565b82523d6000602084013e565b606090565b908160209103126106a3575180151581036106a35790565b604091949392611a1582606081019761196d565b60208201520152565b611a2790611c63565b828210611b70576040516318160ddd60e01b8152906020826004817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa918215611b6457600092611b2f575b50611afd83611af7611ada611ada611af189611aeb89611ae583611adf6ec097ce7bc90715b34b9f10000000009f9d9c611b2b9f611acc611b269f611ad292611ac591611990565b9287611990565b826118fa565b998a9161191d565b61194d565b99611990565b90611990565b936118fa565b9161191d565b906118fa565b60011c7f000000000000000000000000000000000000000000000000000000000000000061193a565b61193a565b0490565b90916020823d8211611b5c575b81611b496020938361177c565b8101031261045757505190611afd611a7d565b3d9150611b3c565b6040513d6000823e3d90fd5b60405163224e54d760e01b8152600490fd5b611b8b90611c63565b6040516318160ddd60e01b8152906020826004817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa918215611b6457600092611c2e575b50611afd83611af7611ada611ada611af189611c2889611ae583611c226ec097ce7bc90715b34b9f10000000009f9d9c611b2b9f611acc611b269f611ad292611ac591611990565b996118fa565b93611990565b90916020823d8211611c5b575b81611c486020938361177c565b8101031261045757505190611afd611bda565b3d9150611c3b565b6040516370a0823160e01b8082523060048301526020939290916001600160a01b039085816024817f000000000000000000000000000000000000000000000000000000000000000086165afa938415611b64578691600095611d4d575b5060246040518094819382523060048301527f0000000000000000000000000000000000000000000000000000000000000000165afa948515611b6457600095611d1c575b5050600281101561197a57611d19579190565b90565b8181969293963d8311611d46575b611d34818361177c565b81010312610457575051923880611d06565b503d611d2a565b9182819692963d8311611d78575b611d65818361177c565b8101031261045757508590519338611cc1565b503d611d5b565b6020818303126106a35780519067ffffffffffffffff82116106a3570181601f820112156106a3578051611db28161199d565b92611dc0604051948561177c565b818452602082840101116106a357611d19916020808501910161188656fea26469706673582212209c6e63f1075aee98bc508abea4086f5498cf6d0d3d69ff2cf6e9e17410e5471464736f6c6343000814003360406080815234620003d65762000d86803803806200001e81620003db565b9283398101608082820312620003d65781516001600160401b039290838111620003d657826200005091830162000401565b906020928382015190858211620003d6576200006e91830162000401565b8186015190926001600160a01b038216929091839003620003d65760600151948151818111620002d6576003908154906001948583811c93168015620003cb575b89841014620003b5578190601f938481116200035f575b508990848311600114620002f857600092620002ec575b505060001982851b1c191690851b1782555b8551928311620002d65760049586548581811c91168015620002cb575b89821014620002b6578281116200026b575b50879184116001146200020057938394918492600095620001f4575b50501b92600019911b1c19161782555b60018060a01b03193381600554161760055560065416176006553315620001dd5760025490838201809211620001c857506000917fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef9160025533835282815284832084815401905584519384523393a3516109129081620004748239f35b601190634e487b7160e01b6000525260246000fd5b602490600085519163ec442f0560e01b8352820152fd5b0151935038806200013a565b9190601f198416928760005284896000209460005b8b8983831062000253575050501062000238575b50505050811b0182556200014a565b01519060f884600019921b161c191690553880808062000229565b86860151895590970196948501948893500162000215565b87600052886000208380870160051c8201928b8810620002ac575b0160051c019086905b8281106200029f5750506200011e565b600081550186906200028f565b9250819262000286565b602288634e487b7160e01b6000525260246000fd5b90607f16906200010c565b634e487b7160e01b600052604160045260246000fd5b015190503880620000dd565b90879350601f19831691866000528b6000209260005b8d8282106200034857505084116200032f575b505050811b018255620000ef565b015160001983871b60f8161c1916905538808062000321565b8385015186558b979095019493840193016200030e565b90915084600052896000208480850160051c8201928c8610620003ab575b918991869594930160051c01915b8281106200039b575050620000c6565b600081558594508991016200038b565b925081926200037d565b634e487b7160e01b600052602260045260246000fd5b92607f1692620000af565b600080fd5b6040519190601f01601f191682016001600160401b03811183821017620002d657604052565b919080601f84011215620003d65782516001600160401b038111620002d65760209062000437601f8201601f19168301620003db565b92818452828287010111620003d65760005b8181106200045f57508260009394955001015290565b85810183015184820184015282016200044956fe608060408181526004918236101561001657600080fd5b600092833560e01c91826306fdde03146106ac57508163095ea7b31461060257816318160ddd146105e357816323b872dd146104d0578163313ce567146104b457816340c10f19146103ec5781635b8bec55146103c357816370a082311461038c57816395d89b411461026d5781639dc29fac1461017d578163a9059cbb1461012757508063dd62ed3e146100df5763def114b6146100b457600080fd5b346100db57816003193601126100db5760055490516001600160a01b039091168152602090f35b5080fd5b50346100db57806003193601126100db57806020926100fc6107cd565b6101046107e8565b6001600160a01b0391821683526001865283832091168252845220549051908152f35b82843461017a578160031936011261017a57506101426107cd565b9160018060a01b0360065416331461016c575061016560209260243590336107fe565b5160018152f35b905163ec0511b360e01b8152fd5b80fd5b839150346100db57826003193601126100db576101986107cd565b6005549091602435916001600160a01b03908116330361025e578316928315610247578385528460205285852054918383106102135750508184957fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef936020938688528785520381872055816002540360025551908152a380f35b865163391434e360e21b81526001600160a01b03909216908201908152602081018390526040810184905281906060010390fd5b8551634b637e8f60e11b8152808301869052602490fd5b508451631e29ea2960e11b8152fd5b8383346100db57816003193601126100db57805190828454600181811c90808316928315610382575b602093848410811461036f5783885290811561035357506001146102fe575b505050829003601f01601f191682019267ffffffffffffffff8411838510176102eb57508291826102e7925282610784565b0390f35b634e487b7160e01b815260418552602490fd5b8787529192508591837f8a35acfbc15ff81a39ae7d344fd709f28e8600b4aa8c65c6b64bfe7fe36bd19b5b83851061033f57505050508301018580806102b5565b805488860183015293019284908201610329565b60ff1916878501525050151560051b84010190508580806102b5565b634e487b7160e01b895260228a52602489fd5b91607f1691610296565b5050346100db5760203660031901126100db5760209181906001600160a01b036103b46107cd565b16815280845220549051908152f35b5050346100db57816003193601126100db5760065490516001600160a01b039091168152602090f35b919050346104b057806003193601126104b0576104076107cd565b60055460243592916001600160a01b0391821633036104a0571692831561048b5760025490838201809211610478575084927fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef9260209260025585855284835280852082815401905551908152a380f35b634e487b7160e01b865260119052602485fd5b84602492519163ec442f0560e01b8352820152fd5b825163294c9fd360e01b81528590fd5b8280fd5b5050346100db57816003193601126100db576020905160128152f35b9050823461017a57606036600319011261017a576104ec6107cd565b6104f46107e8565b60065460443594919391906001600160a01b03848116911681146105d457808352600160205286832033845260205286832054916000198303610540575b6020886101658989896107fe565b8683106105a857811561059157331561057a5750825260016020908152868320338452815291869020908590039055829061016587610532565b8751634a1406b160e11b8152908101849052602490fd5b875163e602df0560e01b8152908101849052602490fd5b8751637dc7a0d960e11b8152339181019182526020820193909352604081018790528291506060010390fd5b50855163ec0511b360e01b8152fd5b5050346100db57816003193601126100db576020906002549051908152f35b9050346104b057816003193601126104b05761061c6107cd565b602435903315610695576001600160a01b031691821561067e57508083602095338152600187528181208582528752205582519081527f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925843392a35160018152f35b8351634a1406b160e11b8152908101859052602490fd5b835163e602df0560e01b8152808401869052602490fd5b849084346104b057826003193601126104b05782600354600181811c9080831692831561077a575b602093848410811461036f57838852908115610353575060011461072457505050829003601f01601f191682019267ffffffffffffffff8411838510176102eb57508291826102e7925282610784565b600387529192508591837fc2575a0e9e593c00f959f8c92f12db2869c3395a3b0502d05e2516446f71f85b5b83851061076657505050508301018580806102b5565b805488860183015293019284908201610750565b91607f16916106d4565b6020808252825181830181905290939260005b8281106107b957505060409293506000838284010152601f8019910116010190565b818101860151848201604001528501610797565b600435906001600160a01b03821682036107e357565b600080fd5b602435906001600160a01b03821682036107e357565b916001600160a01b038084169283156108c357169283156108aa5760009083825281602052604082205490838210610878575091604082827fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef958760209652828652038282205586815220818154019055604051908152a3565b60405163391434e360e21b81526001600160a01b03919091166004820152602481019190915260448101839052606490fd5b60405163ec442f0560e01b815260006004820152602490fd5b604051634b637e8f60e11b815260006004820152602490fdfea2646970667358221220a4188dec5a24c1236a03179956af74460a716e3f3847468e38620d7a4b63d27164736f6c63430008140033",
+  "deployedBytecode": "0x608060408181526004908136101561001657600080fd5b600092833560e01c90816306a9cd5e146113ff5750806314926d98146113ca5780631816ca6f146113865780632dc7fd761461136a5780634c5b59a5146111a45780635cb2deb51461116057806365e23abc14610f9757806370a38aee14610cd2578063715018a614610c7857806379b3d94a14610c345780637c1bb47e14610c11578063892d0f5014610ae95780638da5cb5b14610ac15780638dfeb95214610aa2578063910ec81b14610a6757806391c721e314610a3b5780639c8f9f231461073b5780639f615ee11461045a578063aa7a939914610434578063ac3b90bb146103f9578063df592ec3146103da578063e8078d9414610205578063f1ce1640146101c65763f2fde38b1461012c57600080fd5b346101c25760203660031901126101c2576001600160a01b038235818116939192908490036101be5761015d6118ce565b83156101a8575050600054826bffffffffffffffffffffffff60a01b821617600055167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0600080a380f35b51631e4fbdf760e01b8152908101849052602490fd5b8480fd5b8280fd5b838234610201578160031936011261020157602090517f00000000000000000000000000000000000000000000000000000000000000008152f35b5080fd5b50826003193601126101c2576102196118ce565b60ff8254166103cd5761022e346002546118fa565b600255670de0b6b3a76400008034029034820414341517156103ba5761027684917f00000000000000000000000000000000000000000000000000000000000000009061194d565b926001600160a01b037f000000000000000000000000000000000000000000000000000000000000000081169190823b156103985784516340c10f1960e01b80825230848301908152602081018990529094869183919082908490829060400103925af180156103b05790859161039c575b50507f00000000000000000000000000000000000000000000000000000000000000001691823b15610398578451908152309181019182526020820186905291839183919082908490829060400103925af1801561038e5761037a575b5050807fac1d76749e5447b7b16f5ab61447e1bd502f3bb4807af3b28e620d1700a6ee4591519234845260208401523392a280f35b61038390611752565b6101c2578238610345565b83513d84823e3d90fd5b8380fd5b6103a590611752565b6103985783386102e8565b86513d87823e3d90fd5b634e487b7160e01b845260118352602484fd5b516378e34bb960e01b8152fd5b8382346102015781600319360112610201576020906002549051908152f35b838234610201578160031936011261020157602090517f00000000000000000000000000000000000000000000000000000000000000008152f35b5082346104575780600319360112610457575060ff602092541690519015158152f35b80fd5b5082903461020157816003193601126102015761047561179e565b600254600354845484516306fdde0360e01b80825294966001600160a01b03928316959394937f00000000000000000000000000000000000000000000000000000000000000008416917f000000000000000000000000000000000000000000000000000000000000000085169181858d81865afa94851561071557829561071f575b50895190815281818d81875afa9081156107155782916106f3575b508951996370a0823160e01b9c8d8c5230818d015260209d8e8d602481895afa9c8d156106e9578f90869e6106ba575b5083519182523083830152816024818a5afa9485156106af579461067b575b50549581519d8e809e610200808352820161057c916118a9565b9181830391015261058c916118a9565b908c8203908d015261059d916118a9565b98857f00000000000000000000000000000000000000000000000000000000000000001660608c01527f000000000000000000000000000000000000000000000000000000000000000060808c015260a08b015260c08a015260ff8316151560e08a015261010089015261012088015260081c166101408601526101608501526101808401526101a08301527f00000000000000000000000000000000000000000000000000000000000000006101c08301527f00000000000000000000000000000000000000000000000000000000000000006101e08301520390f35b9093508d81813d83116106a8575b610693818361177c565b810103126106a35751928e610562565b600080fd5b503d610689565b8351903d90823e3d90fd5b809e50813d83116106e2575b6106d0818361177c565b810103126106a3578e9c519c38610543565b503d6106c6565b83513d87823e3d90fd5b61070f91503d8084833e610707818361177c565b810190611d7f565b8c610513565b8a513d84823e3d90fd5b6107349195503d8084833e610707818361177c565b938c6104f8565b5082903461020157602090816003193601126101c25783359161075c6118ce565b60ff855416610a2b5761078f7f00000000000000000000000000000000000000000000000000000000000000008461194d565b90670de0b6b3a764000091828102928184041490151715610a185782516370a0823160e01b8082523088830152906001600160a01b037f00000000000000000000000000000000000000000000000000000000000000008116918481602481865afa908115610a0e5789916109e1575b5085116109c3577f00000000000000000000000000000000000000000000000000000000000000001691855190815230898201528381602481865afa90811561096e578891610996575b5084116109785761085c86600254611990565b600255803b15610956578451632770a7eb60e21b80825230828b01908152602081018790529092899183919082908490829060400103925af1801561096e5790889161095a575b5050813b1561095657845190815230818901908152602081018590529091879183919082908490829060400103925af1801561094c57908691610938575b5080808087335af16108f16119b9565b501561092857825193845283015233917f96cd817c6329656790ef8fba7675405193677d39619571282f5e21f3a98cd0599190a280f35b8251632fdb18b560e01b81528690fd5b61094190611752565b6101be5784876108e1565b84513d88823e3d90fd5b8680fd5b61096390611752565b6109565786896108a3565b86513d8a823e3d90fd5b845163a4d71b8160e01b81526001818a015260248101859052604490fd5b90508381813d83116109bc575b6109ad818361177c565b810103126106a3575189610849565b503d6109a3565b855163a4d71b8160e01b81526000818b015260248101869052604490fd5b90508481813d8311610a07575b6109f8818361177c565b810103126106a357518a6107ff565b503d6109ee565b87513d8b823e3d90fd5b634e487b7160e01b855260118652602485fd5b81516378e34bb960e01b81528590fd5b5090346101c257826003193601126101c25754905160089190911c6001600160a01b0316815260209150f35b838234610201578160031936011261020157602090517f00000000000000000000000000000000000000000000000000000000000000008152f35b8382346102015781600319360112610201576020906003549051908152f35b838234610201578160031936011261020157905490516001600160a01b039091168152602090f35b508290346102015760203660031901126102015782359060028210156101c257835460ff8116610a2b576001600160a01b03907f000000000000000000000000000000000000000000000000000000000000000082163303610c015794600185967f54abe5cff8746fc59eefd3a10a4e9821354cd951ffef23d64fdb7939b6e2e4199596508615600014610bd957837f0000000000000000000000000000000000000000000000000000000000000000165b6101008360a81b039060081b16906affffffffffffffffffffff60a81b161717809155610bca8351809661196d565b60081c1660208401523392a280f35b837f000000000000000000000000000000000000000000000000000000000000000016610b9b565b825163d101b32160e01b81528690fd5b83823461020157602090610c2d610c2736611733565b90611b82565b9051908152f35b838234610201578160031936011261020157517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b8334610457578060031936011261045757610c916118ce565b600080546001600160a01b0319811682556001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a380f35b5090346101c257610ce236611733565b90928115610f885784546001600160a01b039081163314610f785760ff845416610f68576002851015610f555784610f2f577f00000000000000000000000000000000000000000000000000000000000000005b169281516370a0823160e01b815233828201526020908181602481895afa908115610e83578891610f02575b50848110610ee657508251636eb1769f60e11b815233838201523060248201528181604481895afa908115610e83578891610eb9575b50848110610e9d5750610dab8487611b82565b94610db886600354611990565b6003558780808089335af1610dcb6119b9565b5015610e8d5781889160648651809481936323b872dd60e01b835233898401523060248401528a60448401525af1918215610e83578892610e56575b505015610e48575090610e427fdb6c1cc84b96330a9be015b7f4d49df42a035945bf4bc3423e48a6e4259dbb7b939251928392339684611a01565b0390a280f35b90516318161dad60e21b8152fd5b610e759250803d10610e7c575b610e6d818361177c565b8101906119e9565b3880610e07565b503d610e63565b84513d8a823e3d90fd5b8351632fdb18b560e01b81528390fd5b90508360449351926377594e6960e01b84528301526024820152fd5b90508181813d8311610edf575b610ed0818361177c565b810103126106a3575138610d98565b503d610ec6565b905083604493519263053ab6d560e21b84528301526024820152fd5b90508181813d8311610f28575b610f19818361177c565b810103126106a3575138610d62565b503d610f0f565b7f0000000000000000000000000000000000000000000000000000000000000000610d36565b634e487b7160e01b865260218452602486fd5b81516378e34bb960e01b81528490fd5b815163086b2ac360e41b81528490fd5b51632688641b60e21b81529050fd5b50829034610201578160031936011261020157610fb26118ce565b81835460ff8116156111505782516370a0823160e01b815230818701526020959092909160081c6001600160a01b03168684602481845afa9384156110bb578294611121575b50836110c5575b61100b600354876118fa565b93813b156101c2578551632770a7eb60e21b815230858201908152602081019290925291839183919082908490829060400103925af180156110bb579082916110a7575b5060035580808085335af16110626119b9565b5015611099575081519081527f316a0bcd9820c43f9ba8738fd680d536a8ac65080f56f96833f696f6dd5a12fd843392a251908152f35b8251632fdb18b560e01b8152fd5b6110b090611752565b61045757808761104f565b85513d84823e3d90fd5b9450670de0b6b3a76400006110fa7f00000000000000000000000000000000000000000000000000000000000000008561193a565b0494600254808711611119575b8661111191611990565b600255610fff565b955085611107565b9093508681813d8311611149575b611139818361177c565b810103126106a357519287610ff8565b503d61112f565b8251635fd4000d60e11b81528590fd5b838234610201578160031936011261020157517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b5082903461020157602090816003193601126101c257833591821561135a5783546001600160a01b03908116331461134a57855460ff81161561133a5760081c169082516370a0823160e01b815233878201528181602481865afa90811561094c579085918791611309575b50106112f957670de0b6b3a76400006112497f00000000000000000000000000000000000000000000000000000000000000008661193a565b049161125783600254611990565b600255803b156112f5578351632770a7eb60e21b815233818901908152602081018790529091879183919082908490829060400103925af1801561094c576112e2575b508480808085335af16112ab6119b9565b501561092857825193845283015233917faeb4b315a6442ab135da41b9b7b337c712b68e5a6051ef6299965f3e58dbebbb9190a280f35b6112ee90959195611752565b938661129a565b8580fd5b82516328f48e2f60e01b81528690fd5b809250838092503d8311611333575b611322818361177c565b810103126112f55784905188611210565b503d611318565b8351635fd4000d60e11b81528790fd5b825163086b2ac360e41b81528690fd5b8151632688641b60e21b81528590fd5b83823461020157602090610c2d61138036611733565b90611a1e565b838234610201578160031936011261020157517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03168152602090f35b8382346102015781600319360112610201576113fb906113e861179e565b90519182916020835260208301906118a9565b0390f35b91905061140b36611733565b9390928415611727575084546001600160a01b0390811633146117185760ff8254166117095760028410156116f6578315801561166f5783516370a0823160e01b815230848201526020816024817f000000000000000000000000000000000000000000000000000000000000000087165afa90811561166557908791899161162d575b505b1061160a576114a08686611a1e565b34036115fa576114b2346003546118fa565b6003551561157a57825163a9059cbb60e01b81523383820190815260208181018890529192839182908a90829060400103927f0000000000000000000000000000000000000000000000000000000000000000165af1908115611570578691611552575b505b15610e4857507f78408fb808ae2018d121a91ae47221eb4b85530dc14522ce2ddcb93083e269d691610e4291519182913395349184611a01565b61156a915060203d8111610e7c57610e6d818361177c565b38611516565b83513d88823e3d90fd5b825163a9059cbb60e01b81523383820190815260208181018890529192839182908a90829060400103927f0000000000000000000000000000000000000000000000000000000000000000165af19081156115705786916115dc575b50611518565b6115f4915060203d8111610e7c57610e6d818361177c565b386115d6565b83516309c860a960e31b81528390fd5b835163a4d71b8160e01b8152604490876116268287018961196d565b6024820152fd5b9150506020813d821161165d575b816116486020938361177c565b81010312611659578690513861148f565b8780fd5b3d915061163b565b85513d8a823e3d90fd5b83516370a0823160e01b815230848201526020816024817f000000000000000000000000000000000000000000000000000000000000000087165afa9081156116655790879189916116c2575b50611491565b9150506020813d82116116ee575b816116dd6020938361177c565b8101031261165957869051386116bc565b3d91506116d0565b634e487b7160e01b865260218252602486fd5b5090516378e34bb960e01b8152fd5b50905163086b2ac360e41b8152fd5b632688641b60e21b8152fd5b60409060031901126106a35760043560028110156106a3579060243590565b67ffffffffffffffff811161176657604052565b634e487b7160e01b600052604160045260246000fd5b90601f8019910116810190811067ffffffffffffffff82111761176657604052565b60405190600060019081549182811c9080841693841561187c575b6020948584108114611868578388528794939291811561184857506001146117ec575b50506117ea9250038361177c565b565b60008181527fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf695935091905b8183106118305750506117ea935082010138806117dc565b85548884018501529485019487945091830191611818565b9150506117ea94925060ff191682840152151560051b82010138806117dc565b634e487b7160e01b85526022600452602485fd5b91607f16916117b9565b60005b8381106118995750506000910152565b8181015183820152602001611889565b906020916118c281518092818552858086019101611886565b601f01601f1916010190565b6000546001600160a01b031633036118e257565b60405163118cdaa760e01b8152336004820152602490fd5b9190820180921161190757565b634e487b7160e01b600052601160045260246000fd5b90670de0b6b3a76400009182810292818404149015171561190757565b8181029291811591840414171561190757565b8115611957570490565b634e487b7160e01b600052601260045260246000fd5b90600282101561197a5752565b634e487b7160e01b600052602160045260246000fd5b9190820391821161190757565b67ffffffffffffffff811161176657601f01601f191660200190565b3d156119e4573d906119ca8261199d565b916119d8604051938461177c565b82523d6000602084013e565b606090565b908160209103126106a3575180151581036106a35790565b604091949392611a1582606081019761196d565b60208201520152565b611a2790611c63565b828210611b70576040516318160ddd60e01b8152906020826004817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa918215611b6457600092611b2f575b50611afd83611af7611ada611ada611af189611aeb89611ae583611adf6ec097ce7bc90715b34b9f10000000009f9d9c611b2b9f611acc611b269f611ad292611ac591611990565b9287611990565b826118fa565b998a9161191d565b61194d565b99611990565b90611990565b936118fa565b9161191d565b906118fa565b60011c7f000000000000000000000000000000000000000000000000000000000000000061193a565b61193a565b0490565b90916020823d8211611b5c575b81611b496020938361177c565b8101031261045757505190611afd611a7d565b3d9150611b3c565b6040513d6000823e3d90fd5b60405163224e54d760e01b8152600490fd5b611b8b90611c63565b6040516318160ddd60e01b8152906020826004817f00000000000000000000000000000000000000000000000000000000000000006001600160a01b03165afa918215611b6457600092611c2e575b50611afd83611af7611ada611ada611af189611c2889611ae583611c226ec097ce7bc90715b34b9f10000000009f9d9c611b2b9f611acc611b269f611ad292611ac591611990565b996118fa565b93611990565b90916020823d8211611c5b575b81611c486020938361177c565b8101031261045757505190611afd611bda565b3d9150611c3b565b6040516370a0823160e01b8082523060048301526020939290916001600160a01b039085816024817f000000000000000000000000000000000000000000000000000000000000000086165afa938415611b64578691600095611d4d575b5060246040518094819382523060048301527f0000000000000000000000000000000000000000000000000000000000000000165afa948515611b6457600095611d1c575b5050600281101561197a57611d19579190565b90565b8181969293963d8311611d46575b611d34818361177c565b81010312610457575051923880611d06565b503d611d2a565b9182819692963d8311611d78575b611d65818361177c565b8101031261045757508590519338611cc1565b503d611d5b565b6020818303126106a35780519067ffffffffffffffff82116106a3570181601f820112156106a3578051611db28161199d565b92611dc0604051948561177c565b818452602082840101116106a357611d19916020808501910161188656fea26469706673582212209c6e63f1075aee98bc508abea4086f5498cf6d0d3d69ff2cf6e9e17410e5471464736f6c63430008140033",
+  "devdoc": {
+    "errors": {
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "addLiquidity()": {
+        "details": "Only the owner can add liquidity and only if the prediction is not reported"
+      },
+      "buyTokensWithETH(uint8,uint256)": {
+        "params": {
+          "_amountTokenToBuy": "Amount of tokens to purchase",
+          "_outcome": "The possible outcome (YES or NO) to buy tokens for"
+        }
+      },
+      "getBuyPriceInEth(uint8,uint256)": {
+        "params": {
+          "_outcome": "The possible outcome (YES or NO) to buy tokens for",
+          "_tradingAmount": "The amount of tokens to buy"
+        },
+        "returns": {
+          "_0": "The total ETH price"
+        }
+      },
+      "getSellPriceInEth(uint8,uint256)": {
+        "params": {
+          "_outcome": "The possible outcome (YES or NO) to sell tokens for",
+          "_tradingAmount": "The amount of tokens to sell"
+        },
+        "returns": {
+          "_0": "The total ETH price"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "redeemWinningTokens(uint256)": {
+        "details": "Only if the prediction is resolved",
+        "params": {
+          "_amount": "The amount of winning tokens to redeem"
+        }
+      },
+      "removeLiquidity(uint256)": {
+        "details": "Only the owner can remove liquidity and only if the prediction is not reported",
+        "params": {
+          "_ethToWithdraw": "Amount of ETH to withdraw from liquidity pool"
+        }
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "report(uint8)": {
+        "details": "Only the oracle can report the winning outcome and only if the prediction is not reported",
+        "params": {
+          "_winningOutcome": "The winning outcome (YES or NO)"
+        }
+      },
+      "resolveMarketAndWithdraw()": {
+        "details": "Only callable by the owner and only if the prediction is resolved",
+        "returns": {
+          "ethRedeemed": "The amount of ETH redeemed"
+        }
+      },
+      "sellTokensForEth(uint8,uint256)": {
+        "params": {
+          "_outcome": "The possible outcome (YES or NO) to sell tokens for",
+          "_tradingAmount": "The amount of tokens to sell"
+        }
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "errors": {
+      "PredictionMarket__MustProvideETHForInitialLiquidity()": [
+        {
+          "notice": "Errors //////"
+        }
+      ]
+    },
+    "events": {
+      "TokensPurchased(address,uint8,uint256,uint256)": {
+        "notice": "Events //////"
+      }
+    },
+    "kind": "user",
+    "methods": {
+      "addLiquidity()": {
+        "notice": "Add liquidity to the prediction market and mint tokens"
+      },
+      "buyTokensWithETH(uint8,uint256)": {
+        "notice": "Buy prediction outcome tokens with ETH, need to call priceInETH function first to get right amount of tokens to buy"
+      },
+      "getBuyPriceInEth(uint8,uint256)": {
+        "notice": "Calculate the total ETH price for buying tokens"
+      },
+      "getPrediction()": {
+        "notice": "Get the prediction details"
+      },
+      "getSellPriceInEth(uint8,uint256)": {
+        "notice": "Calculate the total ETH price for selling tokens"
+      },
+      "i_oracle()": {
+        "notice": "Checkpoint 8 ///"
+      },
+      "redeemWinningTokens(uint256)": {
+        "notice": "Redeem winning tokens for ETH after prediction is resolved, winning tokens are burned and user receives ETH"
+      },
+      "removeLiquidity(uint256)": {
+        "notice": "Remove liquidity from the prediction market and burn respective tokens, if you remove liquidity before prediction ends you got no share of lpReserve"
+      },
+      "report(uint8)": {
+        "notice": "Report the winning outcome for the prediction"
+      },
+      "resolveMarketAndWithdraw()": {
+        "notice": "Owner of contract can redeem winning tokens held by the contract after prediction is resolved and get ETH from the contract including LP revenue and collateral back"
+      },
+      "sellTokensForEth(uint8,uint256)": {
+        "notice": "Sell prediction outcome tokens for ETH, need to call priceInETH function first to get right amount of tokens to buy"
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 8,
+        "contract": "contracts/PredictionMarket.sol:PredictionMarket",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 1073,
+        "contract": "contracts/PredictionMarket.sol:PredictionMarket",
+        "label": "s_question",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_string_storage"
+      },
+      {
+        "astId": 1075,
+        "contract": "contracts/PredictionMarket.sol:PredictionMarket",
+        "label": "s_ethCollateral",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 1077,
+        "contract": "contracts/PredictionMarket.sol:PredictionMarket",
+        "label": "s_lpTradingRevenue",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 1079,
+        "contract": "contracts/PredictionMarket.sol:PredictionMarket",
+        "label": "s_isReported",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_bool"
+      },
+      {
+        "astId": 1081,
+        "contract": "contracts/PredictionMarket.sol:PredictionMarket",
+        "label": "s_winningToken",
+        "offset": 1,
+        "slot": "4",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
