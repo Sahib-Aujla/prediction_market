@@ -316,8 +316,28 @@ contract PredictionMarket is Ownable {
      * @dev Only if the prediction is resolved
      * @param _amount The amount of winning tokens to redeem
      */
-    function redeemWinningTokens(uint256 _amount) external {
+
+    function redeemWinningTokens(uint256 _amount) external amountGreaterThanZero(_amount) notOwner {
         /// Checkpoint 9 ////
+        if (!s_isReported) {
+            revert PredictionMarket__PredictionNotReported();
+        }
+        if (PredictionMarketToken(s_winningToken).balanceOf(msg.sender) < _amount) {
+            revert PredictionMarket__InsufficientWinningTokens();
+        }
+
+        uint256 ethToReceive = (_amount * i_initialTokenValue) / PRECISION;
+
+        s_ethCollateral -= ethToReceive;
+
+        PredictionMarketToken(s_winningToken).burn(msg.sender, _amount);
+
+        (bool success, ) = msg.sender.call{ value: ethToReceive }("");
+        if (!success) {
+            revert PredictionMarket__ETHTransferFailed();
+        }
+
+        emit WinningTokensRedeemed(msg.sender, _amount, ethToReceive);
     }
 
     /**
