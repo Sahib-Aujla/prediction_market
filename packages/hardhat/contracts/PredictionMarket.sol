@@ -232,6 +232,9 @@ contract PredictionMarket is Ownable {
      */
     function buyTokensWithETH(Outcome _outcome, uint256 _amountTokenToBuy) external payable predictionNotReported {
         /// Checkpoint 8 ////
+        if (msg.sender == owner()) {
+            revert PredictionMarket__OwnerCannotCall();
+        }
         if (_amountTokenToBuy == 0) {
             revert PredictionMarket__AmountMustBeGreaterThanZero();
         }
@@ -239,6 +242,22 @@ contract PredictionMarket is Ownable {
         uint contractTokenBalance = _outcome == Outcome.YES
             ? i_yesToken.balanceOf(address(this))
             : i_noToken.balanceOf(address(this));
+        if (contractTokenBalance < _amountTokenToBuy) {
+            revert PredictionMarket__InsufficientTokenReserve(_outcome, _amountTokenToBuy);
+        }
+        //calculate
+        uint256 priceInEth = getBuyPriceInEth(_outcome, _amountTokenToBuy);
+        if (msg.value != priceInEth) {
+            revert PredictionMarket__MustSendExactETHAmount();
+        }
+        //transfer tokens
+        bool success = _outcome == Outcome.YES
+            ? i_yesToken.transfer(msg.sender, _amountTokenToBuy)
+            : i_noToken.transfer(msg.sender, _amountTokenToBuy);
+        if (!success) {
+            revert PredictionMarket__TokenTransferFailed();
+        }
+        emit TokensPurchased(msg.sender, _outcome, _amountTokenToBuy, msg.value);
     }
 
     /**
